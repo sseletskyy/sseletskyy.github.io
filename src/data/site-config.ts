@@ -38,24 +38,40 @@ export type SiteConfig = {
 };
 
 const siteConfig: SiteConfig = {
-    title: 'Dante',
-    subtitle: 'Minimal Astro.js theme',
-    description: 'Astro.js and Tailwind CSS theme for blog and portfolio by justgoodui.com',
+    title: 'Юлія Селецька',
+    subtitle: 'Одеський фотограф',
+    description: 'Фотозйомка вагітності, новонародженного малюка, семейна фотосесія, жіночий портрет',
     image: {
         src: '/dante-preview.jpg',
-        alt: 'Dante - Astro.js and Tailwind CSS theme'
+        alt: 'Юлія Селецька - одеський фотограф'
     },
     headerNavLinks: [
         {
-            text: 'Home',
+            text: 'Головна',
             href: '/'
         },
         {
-            text: 'Projects',
+            text: 'Вартість',
+            href: '/prices'
+        },
+        {
+            text: 'Портфоліо',
+            href: '/portfolio'
+        },
+        {
+            text: 'Запитання та відповіді',
             href: '/projects'
         },
         {
-            text: 'Blog',
+            text: 'Відгуки',
+            href: '/projects'
+        },
+        {
+            text: 'Контакти',
+            href: '/projects'
+        },
+        {
+            text: 'Блог',
             href: '/blog'
         },
         {
