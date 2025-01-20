@@ -1,137 +1,193 @@
 export type Image = {
-    src: string;
-    alt?: string;
-    caption?: string;
+  src: string;
+  alt?: string;
+  caption?: string;
 };
 
 export type Link = {
-    text: string;
-    href: string;
+  text: string;
+  href: string;
 };
 
 export type Hero = {
-    title?: string;
-    text?: string;
-    image?: Image;
-    actions?: Link[];
+  title?: string;
+  text?: string;
+  image?: Image;
+  actions?: Link[];
 };
 
 export type Subscribe = {
-    title?: string;
-    text?: string;
-    formUrl: string;
+  title?: string;
+  text?: string;
+  formUrl: string;
 };
 
 export type SiteConfig = {
-    logo?: Image;
-    title: string;
-    subtitle?: string;
-    description: string;
-    image?: Image;
-    headerNavLinks?: Link[];
-    footerNavLinks?: Link[];
-    socialLinks?: Link[];
-    hero?: Hero;
-    subscribe?: Subscribe;
-    postsPerPage?: number;
-    projectsPerPage?: number;
+  logo?: Image;
+  title: string;
+  subtitle?: string;
+  description: string;
+  image?: Image;
+  headerNavLinks?: Link[];
+  footerNavLinks?: Link[];
+  socialLinks?: Link[];
+  hero?: Hero;
+  subscribe?: Subscribe;
+  postsPerPage?: number;
+  projectsPerPage?: number;
+  portfolio: Portfolio;
+};
+
+export type ImageLink = {
+  image: Image;
+  link: Link;
+};
+
+export type Portfolio = {
+  title: string;
+  list: ImageLink[];
 };
 
 const siteConfig: SiteConfig = {
-    title: 'Юлія Селецька',
-    subtitle: 'Одеський фотограф',
-    description: 'Фотозйомка вагітності, новонародженного малюка, семейна фотосесія, жіночий портрет',
-    image: {
-        src: '/dante-preview.jpg',
-        alt: 'Юлія Селецька - одеський фотограф'
-    },
-    headerNavLinks: [
-        {
-            text: 'Головна',
-            href: '/'
+  portfolio: {
+    title: 'Портфоліо',
+    list: [
+      {
+        link: {
+          text: 'Вагітність',
+          href: '/portfolio/pregnancy',
         },
-        {
-            text: 'Вартість',
-            href: '/prices'
-        },
-        {
-            text: 'Портфоліо',
-            href: '/portfolio'
-        },
-        {
-            text: 'Запитання та відповіді',
-            href: '/projects'
-        },
-        {
-            text: 'Відгуки',
-            href: '/projects'
-        },
-        {
-            text: 'Контакти',
-            href: '/projects'
-        },
-        {
-            text: 'Блог',
-            href: '/blog'
-        },
-        {
-            text: 'Tags',
-            href: '/tags'
-        }
-    ],
-    footerNavLinks: [
-        {
-            text: 'About',
-            href: '/about'
-        },
-        {
-            text: 'Contact',
-            href: '/contact'
-        },
-        {
-            text: 'Terms',
-            href: '/terms'
-        },
-        {
-            text: 'Download theme',
-            href: 'https://github.com/JustGoodUI/dante-astro-theme'
-        }
-    ],
-    socialLinks: [
-        {
-            text: 'Dribbble',
-            href: 'https://dribbble.com/'
-        },
-        {
-            text: 'Instagram',
-            href: 'https://instagram.com/'
-        },
-        {
-            text: 'X/Twitter',
-            href: 'https://twitter.com/'
-        }
-    ],
-    hero: {
-        title: 'Hi There & Welcome to My Corner of the Web!',
-        text: "I'm **Ethan Donovan**, a web developer at Amazing Studio, dedicated to the realms of collaboration and artificial intelligence. My approach involves embracing intuition, conducting just enough research, and leveraging aesthetics as a catalyst for exceptional products. I have a profound appreciation for top-notch software, visual design, and the principles of product-led growth. Feel free to explore some of my coding endeavors on <a href='https://github.com/JustGoodUI/dante-astro-theme'>GitHub</a> or follow me on <a href='https://twitter.com/justgoodui'>Twitter/X</a>.",
         image: {
-            src: '/hero.jpeg',
-            alt: 'A person sitting at a desk in front of a computer'
+          src: '/images/portfolio/pregnancy.jpg',
+          alt: 'Вагітність',
         },
-        actions: [
-            {
-                text: 'Get in Touch',
-                href: '/contact'
-            }
-        ]
+      },
+      {
+        link: {
+          text: 'Новонароджений малюк',
+          href: '/portfolio/newborn',
+        },
+        image: {
+          src: '/images/portfolio/newborn.jpg',
+          alt: 'Новонароджений малюк',
+        },
+      },
+      {
+        link: {
+          text: 'Сімейна фотосесія',
+          href: '/portfolio/family',
+        },
+        image: {
+          src: '/images/portfolio/family.jpg',
+          alt: 'Сімейна фотосесія',
+        },
+      },
+      {
+        link: {
+          text: 'Жіночий портрет',
+          href: '/portfolio/woman-portrait',
+        },
+        image: {
+          src: '/images/portfolio/woman-portrait.jpg',
+          alt: 'Жіночий портрет',
+        },
+      },
+    ],
+  },
+  title: 'Юлія Селецька',
+  subtitle: 'Одеський фотограф',
+  description: 'Фотозйомка вагітності, новонародженного малюка, семейна фотосесія, жіночий портрет',
+  logo: {
+    src: '/images/home/julia-logo@2x.png',
+    alt: 'Юлія Селецька - одеський фотограф',
+  },
+  headerNavLinks: [
+    {
+      text: 'Головна',
+      href: '/',
     },
-    subscribe: {
-        title: 'Subscribe to Dante Newsletter',
-        text: 'One update per week. All the latest posts directly in your inbox.',
-        formUrl: '#'
+    {
+      text: 'Вартість',
+      href: '/prices',
     },
-    postsPerPage: 8,
-    projectsPerPage: 8
+    {
+      text: 'Портфоліо',
+      href: '/portfolio',
+    },
+    {
+      text: 'Запитання та відповіді',
+      href: '/qa',
+    },
+    {
+      text: 'Відгуки',
+      href: '/testimonials',
+    },
+    {
+      text: 'Контакти',
+      href: '/contact',
+    },
+    // {
+    //     text: 'Блог',
+    //     href: '/blog'
+    // },
+    // {
+    //     text: 'Tags',
+    //     href: '/tags'
+    // }
+  ],
+  footerNavLinks: [
+    {
+      text: 'Головна',
+      href: '/',
+    },
+    {
+      text: 'Вартість',
+      href: '/prices',
+    },
+    {
+      text: 'Портфоліо',
+      href: '/portfolio',
+    },
+    {
+      text: 'Запитання та відповіді',
+      href: '/qa',
+    },
+    {
+      text: 'Відгуки',
+      href: '/testimonials',
+    },
+    {
+      text: 'Контакти',
+      href: '/contact',
+    },
+  ],
+  socialLinks: [
+    {
+      text: 'Instagram',
+      href: 'https://www.instagram.com/seletska_photography/',
+    },
+  ],
+  hero: {
+    title: 'Сімейна фотографія з любовʼю',
+    text: "Мене звати Юлія і я рада вітати Вас на моєму сайті.</br>Головне в моїй роботі – наповнити кожний кадр Вашими почуттями, емоціями та любов'ю.</br>Я вкладаюся в кожну деталь процесу та роблю це щиро, адже моя творчість – один з основних джерел мого щастя!",
+    image: {
+      src: '/images/home/first-picture.jpg',
+      alt: 'A father is holding his newborn baby',
+    },
+    actions: [
+      // {
+      //     text: 'Звʼязатися зі мною',
+      //     href: '/contact'
+      // }
+    ],
+  },
+  // subscribe: {
+  //     title: 'Subscribe to Dante Newsletter',
+  //     text: 'One update per week. All the latest posts directly in your inbox.',
+  //     formUrl: '#'
+  // },
+  postsPerPage: 8,
+  projectsPerPage: 8,
 };
 
 export default siteConfig;

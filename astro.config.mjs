@@ -5,14 +5,14 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://sseletskyy.github.io',
-    base: '/',
-    output: 'static',
-    integrations: [
-        mdx(),
-        sitemap(),
-        tailwind({
-            applyBaseStyles: false
-        })
-    ]
+  site: 'https://sseletskyy.github.io',
+  base: '/',
+  output: 'static',
+  integrations: [
+    mdx(),
+    sitemap(),
+    tailwind({
+      applyBaseStyles: false,
+    }),
+  ],
 });
