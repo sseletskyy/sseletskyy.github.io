@@ -17,7 +17,7 @@ const allImages: string[] = fg.sync(`public/images/portfolio/${slug}/*.jpg`, { o
 
 const images = allImages
   // .filter((src) => src.includes(path))
-  .map((src) => `/${src}`)
+  .map((src) => `/${src.split('public/')[1]}`)
   .reverse();
 
 // console.log(`@@@ All Images`, allImages);
