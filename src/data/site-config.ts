@@ -1,61 +1,6 @@
-export type Image = {
-  src: string;
-  alt?: string;
-  caption?: string;
-};
-
-export type Link = {
-  text: string;
-  href: string;
-};
-
-export type Hero = {
-  title?: string;
-  text?: string;
-  image?: Image;
-  actions?: Link[];
-};
-
-export type Subscribe = {
-  title?: string;
-  text?: string;
-  formUrl: string;
-};
-
-export type SiteConfig = {
-  description: string;
-  dictionaries: {
-    title: Dictionary;
-    href: Dictionary;
-    portfolioHref: Dictionary;
-    pricesHref: Dictionary;
-  }
-  footerNavLinks?: Link[];
-  headerNavLinks?: Link[];
-  hero?: Hero;
-  image?: Image;
-  logo?: Image;
-  portfolio: Portfolio;
-  prices: Portfolio;
-  postsPerPage?: number;
-  projectsPerPage?: number;
-  socialLinks?: Link[];
-  subscribe?: Subscribe;
-  subtitle?: string;
-  title: string;
-};
-
-export type ImageLink = {
-  image: Image;
-  link: Link;
-};
-
-export type Portfolio = {
-  title: string;
-  list: ImageLink[];
-};
-
-export type Dictionary = Record<string, string>;
+import type { Dictionary, PhotosessionDictionary, SiteConfig } from './types';
+import { priceDescriptions } from './priceDescriptions';
+import { qaList } from './qa.ts';
 
 const titleDict: Dictionary = {
   portfolio: 'Портфоліо',
@@ -64,7 +9,8 @@ const titleDict: Dictionary = {
   newborn: 'Новонароджений малюк',
   family: 'Сімейна фотосесія',
   woman: 'Жіночий портрет',
-}
+  qa: 'Запитання та відповіді',
+};
 
 const hrefDict: Dictionary = {
   home: '/',
@@ -73,20 +19,20 @@ const hrefDict: Dictionary = {
   prices: '/prices',
   qa: '/qa',
   testimonials: '/testimonials',
-}
-const portfolioHrefDict: Dictionary = {
+};
+const portfolioHrefDict: PhotosessionDictionary<string> = {
   pregnancy: '/portfolio/pregnancy',
   newborn: '/portfolio/newborn',
   family: '/portfolio/family',
   woman: '/portfolio/woman',
-}
+};
 
-const pricesHrefDict: Dictionary = {
+const pricesHrefDict: PhotosessionDictionary<string> = {
   pregnancy: '/prices/pregnancy',
   newborn: '/prices/newborn',
   family: '/prices/family',
   woman: '/prices/woman',
-}
+};
 
 const siteConfig: SiteConfig = {
   dictionaries: {
@@ -184,6 +130,17 @@ const siteConfig: SiteConfig = {
         },
       },
     ],
+    titles: {
+      pregnancy: 'Фотосесія Вагітності',
+      newborn: 'Фотосесія Новонародженного Малюка',
+      family: 'Сімейна Фотосесія',
+      woman: 'Жіночий портет',
+    },
+    priceDescriptions: priceDescriptions,
+  },
+  qa: {
+    title: titleDict.qa,
+    list: qaList,
   },
   title: 'Юлія Селецька',
   subtitle: 'Одеський фотограф',

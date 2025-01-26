@@ -72,3 +72,7 @@
     height: 1.4em;
   }
 }
+
+.md-border-r:not(:last-child) {
+  @apply md:border-r;
+}

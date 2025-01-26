@@ -1,0 +1,32 @@
+---
+import type { PriceDescription } from '../data/types';
+
+export type Props = {
+  descriptionList: PriceDescription[];
+};
+const { descriptionList } = Astro.props as Props;
+---
+
+<>
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-2">
+    {
+      descriptionList.map((d) => (
+        <div class="flex flex-col gap-8 md-border-r border-gray-500 pr-4">
+          <div class="mx-auto">{d.title}</div>
+          <div class="mx-auto">
+            {d.oldPrice && <span class="line-through pr-2">{d.oldPrice}</span>}
+            {d.price}
+          </div>
+          <img class="mx-auto w-1/2 md:w-full" src={d.image.src} loading="lazy" decoding="async" alt={d.image.alt || ''} />
+          <div>Пакет включає в себе:</div>
+          <ul class="list-disc mx-auto md:px-4">
+            {d.list.map((item) => (
+              <li set:html={item} />
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </section>
+  <div class="my-16">* Ціни вказані для ознайомлення. Оплата послуг відбувається лише у національній валюті за курсом на день зйомки.</div>
+</>

@@ -1,22 +1,27 @@
 ---
-import {ImageLink} from "../data/site-config";
+import type { ImageLink } from '../data/types';
 export type Props = {
-    list: ImageLink[];
-}
+  list: ImageLink[];
+};
 const { list } = Astro.props as Props;
 ---
 
 <div class="mx-auto">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {list.map((item) => (
-                <div class="flex flex-col gap-2 items-center">
-                    <a href={item.link.href}>
-                        <img src={item.image.src} alt={item.image.alt} class="w-full h-auto">
-                    </a>
-                    <a href={item.link.href} class="block text-center font-bold py-4 px-6 rounded-lg shadow-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 hover:text-white uppercase">
-                        {item.link.text}
-                    </a>
-                </div>
-        ))}
-    </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    {
+      list.map((item) => (
+        <div class="flex flex-col gap-2 items-center">
+          <a href={item.link.href}>
+            <img src={item.image.src} alt={item.image.alt} class="w-full h-auto" />
+          </a>
+          <a
+            href={item.link.href}
+            class="block text-center font-bold py-4 px-6 rounded-lg shadow-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 hover:text-white uppercase"
+          >
+            {item.link.text}
+          </a>
+        </div>
+      ))
+    }
+  </div>
 </div>

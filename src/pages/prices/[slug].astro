@@ -1,0 +1,29 @@
+---
+import siteConfig from '../../data/site-config';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import GoBack from '../../components/GoBack.astro';
+import PriceDescription from '../../components/PriceDescription.astro';
+import { PhotosessionType } from '../../data/types';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return [
+    { params: { slug: PhotosessionType.pregnancy } },
+    { params: { slug: PhotosessionType.newborn } },
+    { params: { slug: PhotosessionType.family } },
+    { params: { slug: PhotosessionType.woman } },
+  ];
+}
+
+const { slug } = Astro.params; // Get the slug from the URL
+
+const title = siteConfig.prices.titles[slug];
+const descriptionList = siteConfig.prices.priceDescriptions[slug];
+---
+
+<BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
+  <PageHeader title={title} />
+  <GoBack text={siteConfig.dictionaries.title.prices} href={siteConfig.dictionaries.href.prices} />
+  <PriceDescription descriptionList={descriptionList} />
+</BaseLayout>

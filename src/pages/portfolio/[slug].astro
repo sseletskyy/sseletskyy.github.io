@@ -2,37 +2,33 @@
 import fg from 'fast-glob';
 import siteConfig from '../../data/site-config';
 import ImageGrid from '../../components/ImageGrid.astro';
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import PageHeader from "../../components/PageHeader.astro";
-import GoBack from "../../components/GoBack.astro";
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import GoBack from '../../components/GoBack.astro';
 
 export const prerender = true;
 export function getStaticPaths() {
-    return [
-        {params: {slug: 'pregnancy'}},
-        {params: {slug: 'newborn'}},
-        {params: {slug: 'family'}},
-        {params: {slug: 'woman'}},
-    ];
+  return [{ params: { slug: 'pregnancy' } }, { params: { slug: 'newborn' } }, { params: { slug: 'family' } }, { params: { slug: 'woman' } }];
 }
 
 const { slug } = Astro.params; // Get the slug from the URL
-const path = String(`/portfolio/${slug}/`)
-const allImages: string[] = fg.sync(`public/images/portfolio/${slug}/*.jpg`, { onlyFiles: true })
+const path = String(`/portfolio/${slug}/`);
+const allImages: string[] = fg.sync(`public/images/portfolio/${slug}/*.jpg`, { onlyFiles: true });
 
 const images = allImages
-    // .filter((src) => src.includes(path))
-    .map((src) => `/${src}`)
-    .reverse()
+  // .filter((src) => src.includes(path))
+  .map((src) => `/${src}`)
+  .reverse();
 
 // console.log(`@@@ All Images`, allImages);
 // console.log(`@@@ filtered Images`, images);
 
 const title = siteConfig.dictionaries.title[slug];
 ---
+
 <BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
-    <PageHeader title={title}/>
-    <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio}  />
-    <ImageGrid imageFolder={path} images={images} />
-    <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio}  />
+  <PageHeader title={title} />
+  <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
+  <ImageGrid imageFolder={path} images={images} />
+  <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
 </BaseLayout>

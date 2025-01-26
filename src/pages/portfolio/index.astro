@@ -1,14 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import siteConfig from '../../data/site-config';
-import Portfolio from "../../components/Portfolio.astro";
-import PageHeader from "../../components/PageHeader.astro";
+import Portfolio from '../../components/Portfolio.astro';
+import PageHeader from '../../components/PageHeader.astro';
 
 const portfolio = siteConfig.portfolio;
-
 ---
 
 <BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
-    <PageHeader title={portfolio.title}/>
-    <Portfolio list={portfolio.list} />
+  <PageHeader title={portfolio.title} />
+  <Portfolio list={portfolio.list} />
 </BaseLayout>
