@@ -3,13 +3,16 @@ import siteConfig from '../data/site-config';
 import ImageLinkList from './ImageLinkList.astro';
 import PageHeader from './PageHeader.astro';
 
-const portfolio = siteConfig.portfolio;
+export type Props = {
+    list: ImageLink[];
+}
+const { list } = Astro.props as Props;
+
 ---
 
 {
     <section class="w-full flex flex-col gap-8 mb-16 sm:mb-24">
-        <PageHeader title={portfolio.title}/>
-        <ImageLinkList list={portfolio.list}/>
+        <ImageLinkList list={list}/>
             <!--{hero.image?.src && (-->
             <!--    <figure>-->
             <!--        <img class="w-full" src={hero.image.src} loading="lazy" decoding="async" alt={hero.image.alt || ''} />-->

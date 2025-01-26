@@ -6,7 +6,5 @@ const { title } = Astro.props as Props;
 
 ---
 <div class="title-shell">
-    <h1 class="text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight title">
-        {title}
-    </h1>
+    <h1 set:html={title.split(' ').join('&nbsp;')} class="text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight title"/>
 </div>

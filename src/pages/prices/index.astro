@@ -4,11 +4,10 @@ import siteConfig from '../../data/site-config';
 import Portfolio from "../../components/Portfolio.astro";
 import PageHeader from "../../components/PageHeader.astro";
 
-const portfolio = siteConfig.portfolio;
-
+const prices = siteConfig.prices;
 ---
 
 <BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
-    <PageHeader title={portfolio.title}/>
-    <Portfolio list={portfolio.list} />
+    <PageHeader title={prices.title}/>
+    <Portfolio list={prices.list} />
 </BaseLayout>

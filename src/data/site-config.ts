@@ -23,19 +23,26 @@ export type Subscribe = {
 };
 
 export type SiteConfig = {
-  logo?: Image;
-  title: string;
-  subtitle?: string;
   description: string;
-  image?: Image;
-  headerNavLinks?: Link[];
+  dictionaries: {
+    title: Dictionary;
+    href: Dictionary;
+    portfolioHref: Dictionary;
+    pricesHref: Dictionary;
+  }
   footerNavLinks?: Link[];
-  socialLinks?: Link[];
+  headerNavLinks?: Link[];
   hero?: Hero;
-  subscribe?: Subscribe;
+  image?: Image;
+  logo?: Image;
+  portfolio: Portfolio;
+  prices: Portfolio;
   postsPerPage?: number;
   projectsPerPage?: number;
-  portfolio: Portfolio;
+  socialLinks?: Link[];
+  subscribe?: Subscribe;
+  subtitle?: string;
+  title: string;
 };
 
 export type ImageLink = {
@@ -48,48 +55,132 @@ export type Portfolio = {
   list: ImageLink[];
 };
 
+export type Dictionary = Record<string, string>;
+
+const titleDict: Dictionary = {
+  portfolio: 'Портфоліо',
+  prices: 'Вартість',
+  pregnancy: 'Вагітність',
+  newborn: 'Новонароджений малюк',
+  family: 'Сімейна фотосесія',
+  woman: 'Жіночий портрет',
+}
+
+const hrefDict: Dictionary = {
+  home: '/',
+  contact: '/contact',
+  portfolio: '/portfolio',
+  prices: '/prices',
+  qa: '/qa',
+  testimonials: '/testimonials',
+}
+const portfolioHrefDict: Dictionary = {
+  pregnancy: '/portfolio/pregnancy',
+  newborn: '/portfolio/newborn',
+  family: '/portfolio/family',
+  woman: '/portfolio/woman',
+}
+
+const pricesHrefDict: Dictionary = {
+  pregnancy: '/prices/pregnancy',
+  newborn: '/prices/newborn',
+  family: '/prices/family',
+  woman: '/prices/woman',
+}
+
 const siteConfig: SiteConfig = {
+  dictionaries: {
+    title: titleDict,
+    href: hrefDict,
+    portfolioHref: portfolioHrefDict,
+    pricesHref: pricesHrefDict,
+  },
   portfolio: {
-    title: 'Портфоліо',
+    title: titleDict.portfolio,
     list: [
       {
         link: {
-          text: 'Вагітність',
-          href: '/portfolio/pregnancy',
+          text: titleDict.pregnancy,
+          href: portfolioHrefDict.pregnancy,
         },
         image: {
           src: '/images/portfolio/pregnancy.jpg',
-          alt: 'Вагітність',
+          alt: titleDict.pregnancy,
         },
       },
       {
         link: {
-          text: 'Новонароджений малюк',
-          href: '/portfolio/newborn',
+          text: titleDict.newborn,
+          href: portfolioHrefDict.newborn,
         },
         image: {
           src: '/images/portfolio/newborn.jpg',
-          alt: 'Новонароджений малюк',
+          alt: titleDict.newborn,
         },
       },
       {
         link: {
-          text: 'Сімейна фотосесія',
-          href: '/portfolio/family',
+          text: titleDict.family,
+          href: portfolioHrefDict.family,
         },
         image: {
           src: '/images/portfolio/family.jpg',
-          alt: 'Сімейна фотосесія',
+          alt: titleDict.family,
         },
       },
       {
         link: {
-          text: 'Жіночий портрет',
-          href: '/portfolio/woman-portrait',
+          text: titleDict.woman,
+          href: portfolioHrefDict.woman,
         },
         image: {
           src: '/images/portfolio/woman-portrait.jpg',
-          alt: 'Жіночий портрет',
+          alt: titleDict.woman,
+        },
+      },
+    ],
+  },
+  prices: {
+    title: titleDict.prices,
+    list: [
+      {
+        link: {
+          text: titleDict.pregnancy,
+          href: pricesHrefDict.pregnancy,
+        },
+        image: {
+          src: '/images/portfolio/pregnancy.jpg',
+          alt: titleDict.pregnancy,
+        },
+      },
+      {
+        link: {
+          text: titleDict.newborn,
+          href: pricesHrefDict.newborn,
+        },
+        image: {
+          src: '/images/portfolio/newborn.jpg',
+          alt: titleDict.newborn,
+        },
+      },
+      {
+        link: {
+          text: titleDict.family,
+          href: pricesHrefDict.family,
+        },
+        image: {
+          src: '/images/portfolio/family.jpg',
+          alt: titleDict.family,
+        },
+      },
+      {
+        link: {
+          text: titleDict.woman,
+          href: pricesHrefDict.woman,
+        },
+        image: {
+          src: '/images/portfolio/woman-portrait.jpg',
+          alt: titleDict.woman,
         },
       },
     ],
@@ -104,27 +195,27 @@ const siteConfig: SiteConfig = {
   headerNavLinks: [
     {
       text: 'Головна',
-      href: '/',
+      href: hrefDict.home,
     },
     {
       text: 'Вартість',
-      href: '/prices',
+      href: hrefDict.prices,
     },
     {
       text: 'Портфоліо',
-      href: '/portfolio',
+      href: hrefDict.portfolio,
     },
     {
       text: 'Запитання та відповіді',
-      href: '/qa',
+      href: hrefDict.qa,
     },
     {
       text: 'Відгуки',
-      href: '/testimonials',
+      href: hrefDict.testimonials,
     },
     {
       text: 'Контакти',
-      href: '/contact',
+      href: hrefDict.contact,
     },
     // {
     //     text: 'Блог',
@@ -138,27 +229,27 @@ const siteConfig: SiteConfig = {
   footerNavLinks: [
     {
       text: 'Головна',
-      href: '/',
+      href: hrefDict.home,
     },
     {
       text: 'Вартість',
-      href: '/prices',
+      href: hrefDict.prices,
     },
     {
       text: 'Портфоліо',
-      href: '/portfolio',
+      href: hrefDict.portfolio,
     },
     {
       text: 'Запитання та відповіді',
-      href: '/qa',
+      href: hrefDict.qa,
     },
     {
       text: 'Відгуки',
-      href: '/testimonials',
+      href: hrefDict.testimonials,
     },
     {
       text: 'Контакти',
-      href: '/contact',
+      href: hrefDict.contact,
     },
   ],
   socialLinks: [

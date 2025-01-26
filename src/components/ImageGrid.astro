@@ -1,0 +1,32 @@
+---
+interface Props {
+    imageFolder: string;
+    images: string[];
+}
+
+const {imageFolder, images} = Astro.props;
+---
+<h1>{imageFolder}</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+{images.map(image => (
+            <div>
+                <img
+                        class="h-auto max-w-full rounded-md"
+                        src={image}
+                        alt="Portfolio image"
+                        data-class2="w-full h-full"
+                        loading="lazy"
+                />
+            </div>
+    ))}
+</div>
+
+<style>
+    .grid {
+        display: grid;
+    }
+
+    .aspect-w-1 {
+        aspect-ratio: 1;
+    }
+</style>
