@@ -14,7 +14,7 @@ const SAFE_TIME = 456789e3;
 const PortablePath = {
   root: `/`,
   dot: `.`,
-  parent: `..`,
+  parent: `..`
 };
 const npath = Object.create(path);
 const ppath = Object.create(path.posix);
@@ -29,11 +29,13 @@ if (process.platform === `win32`) {
     }
   };
 }
-const contains = function (pathUtils, from, to) {
+const contains = function(pathUtils, from, to) {
   from = pathUtils.normalize(from);
   to = pathUtils.normalize(to);
-  if (from === to) return `.`;
-  if (!from.endsWith(pathUtils.sep)) from = from + pathUtils.sep;
+  if (from === to)
+    return `.`;
+  if (!from.endsWith(pathUtils.sep))
+    from = from + pathUtils.sep;
   if (to.startsWith(from)) {
     return to.slice(from.length);
   } else {
@@ -48,16 +50,21 @@ const PORTABLE_PATH_REGEXP = /^\/([a-zA-Z]:.*)$/;
 const UNC_PORTABLE_PATH_REGEXP = /^\/unc\/(\.dot\/)?(.*)$/;
 function fromPortablePathWin32(p) {
   let portablePathMatch, uncPortablePathMatch;
-  if ((portablePathMatch = p.match(PORTABLE_PATH_REGEXP))) p = portablePathMatch[1];
-  else if ((uncPortablePathMatch = p.match(UNC_PORTABLE_PATH_REGEXP))) p = `\\\\${uncPortablePathMatch[1] ? `.\\` : ``}${uncPortablePathMatch[2]}`;
-  else return p;
+  if (portablePathMatch = p.match(PORTABLE_PATH_REGEXP))
+    p = portablePathMatch[1];
+  else if (uncPortablePathMatch = p.match(UNC_PORTABLE_PATH_REGEXP))
+    p = `\\\\${uncPortablePathMatch[1] ? `.\\` : ``}${uncPortablePathMatch[2]}`;
+  else
+    return p;
   return p.replace(/\//g, `\\`);
 }
 function toPortablePathWin32(p) {
   p = p.replace(/\\/g, `/`);
   let windowsPathMatch, uncWindowsPathMatch;
-  if ((windowsPathMatch = p.match(WINDOWS_PATH_REGEXP))) p = `/${windowsPathMatch[1]}`;
-  else if ((uncWindowsPathMatch = p.match(UNC_WINDOWS_PATH_REGEXP))) p = `/unc/${uncWindowsPathMatch[1] ? `.dot/` : ``}${uncWindowsPathMatch[2]}`;
+  if (windowsPathMatch = p.match(WINDOWS_PATH_REGEXP))
+    p = `/${windowsPathMatch[1]}`;
+  else if (uncWindowsPathMatch = p.match(UNC_WINDOWS_PATH_REGEXP))
+    p = `/unc/${uncWindowsPathMatch[1] ? `.dot/` : ``}${uncWindowsPathMatch[2]}`;
   return p;
 }
 const toPortablePath = process.platform === `win32` ? toPortablePathWin32 : (p) => p;
@@ -78,12 +85,11 @@ async function copyPromise(destinationFs, destination, sourceFs, source, opts) {
   const { atime, mtime } = opts.stableTime ? { atime: defaultTime, mtime: defaultTime } : await sourceFs.lstatPromise(normalizedSource);
   await destinationFs.mkdirpPromise(destinationFs.pathUtils.dirname(destination), { utimes: [atime, mtime] });
   await copyImpl(prelayout, postlayout, destinationFs, normalizedDestination, sourceFs, normalizedSource, { ...opts, didParentExist: true });
-  for (const operation of prelayout) await operation();
-  await Promise.all(
-    postlayout.map((operation) => {
-      return operation();
-    })
-  );
+  for (const operation of prelayout)
+    await operation();
+  await Promise.all(postlayout.map((operation) => {
+    return operation();
+  }));
 }
 async function copyImpl(prelayout, postlayout, destinationFs, destination, sourceFs, source, opts) {
   const destinationStat = opts.didParentExist ? await maybeLStat(destinationFs, destination) : null;
@@ -155,34 +161,14 @@ async function copyFolder(prelayout, postlayout, destinationFs, destination, des
   const nextOpts = opts.didParentExist && !destinationStat ? { ...opts, didParentExist: false } : opts;
   if (opts.stableSort) {
     for (const entry of entries.sort()) {
-      if (
-        await copyImpl(
-          prelayout,
-          postlayout,
-          destinationFs,
-          destinationFs.pathUtils.join(destination, entry),
-          sourceFs,
-          sourceFs.pathUtils.join(source, entry),
-          nextOpts
-        )
-      ) {
+      if (await copyImpl(prelayout, postlayout, destinationFs, destinationFs.pathUtils.join(destination, entry), sourceFs, sourceFs.pathUtils.join(source, entry), nextOpts)) {
         updated = true;
       }
     }
   } else {
-    const entriesUpdateStatus = await Promise.all(
-      entries.map(async (entry) => {
-        await copyImpl(
-          prelayout,
-          postlayout,
-          destinationFs,
-          destinationFs.pathUtils.join(destination, entry),
-          sourceFs,
-          sourceFs.pathUtils.join(source, entry),
-          nextOpts
-        );
-      })
-    );
+    const entriesUpdateStatus = await Promise.all(entries.map(async (entry) => {
+      await copyImpl(prelayout, postlayout, destinationFs, destinationFs.pathUtils.join(destination, entry), sourceFs, sourceFs.pathUtils.join(source, entry), nextOpts);
+    }));
     if (entriesUpdateStatus.some((status) => status)) {
       updated = true;
     }
@@ -197,10 +183,10 @@ async function copyFileViaIndex(prelayout, postlayout, destinationFs, destinatio
   const indexPath = destinationFs.pathUtils.join(linkStrategy.indexPath, sourceHash.slice(0, 2), `${indexFileName}.dat`);
   let AtomicBehavior;
   ((AtomicBehavior2) => {
-    AtomicBehavior2[(AtomicBehavior2['Lock'] = 0)] = 'Lock';
-    AtomicBehavior2[(AtomicBehavior2['Rename'] = 1)] = 'Rename';
+    AtomicBehavior2[AtomicBehavior2["Lock"] = 0] = "Lock";
+    AtomicBehavior2[AtomicBehavior2["Rename"] = 1] = "Rename";
   })(AtomicBehavior || (AtomicBehavior = {}));
-  let atomicBehavior = 1; /* Rename */
+  let atomicBehavior = 1 /* Rename */;
   let indexStat = await maybeLStat(destinationFs, indexPath);
   if (destinationStat) {
     const isDestinationHardlinkedFromIndex = indexStat && destinationStat.dev === indexStat.dev && destinationStat.ino === indexStat.ino;
@@ -220,12 +206,7 @@ async function copyFileViaIndex(prelayout, postlayout, destinationFs, destinatio
       }
     }
   }
-  const tempPath =
-    !indexStat && atomicBehavior === 1 /* Rename */
-      ? `${indexPath}.${Math.floor(Math.random() * 4294967296)
-          .toString(16)
-          .padStart(8, `0`)}`
-      : null;
+  const tempPath = !indexStat && atomicBehavior === 1 /* Rename */ ? `${indexPath}.${Math.floor(Math.random() * 4294967296).toString(16).padStart(8, `0`)}` : null;
   let tempPathCleaned = false;
   prelayout.push(async () => {
     if (!indexStat) {
@@ -335,7 +316,8 @@ class FakeFS {
       const chunk = Buffer.allocUnsafeSlow(CHUNK_SIZE);
       const hash = createHash(algorithm);
       let bytesRead = 0;
-      while ((bytesRead = await this.readPromise(fd, chunk, 0, CHUNK_SIZE)) !== 0) hash.update(bytesRead === CHUNK_SIZE ? chunk : chunk.slice(0, bytesRead));
+      while ((bytesRead = await this.readPromise(fd, chunk, 0, CHUNK_SIZE)) !== 0)
+        hash.update(bytesRead === CHUNK_SIZE ? chunk : chunk.slice(0, bytesRead));
       return hash.digest(`hex`);
     } finally {
       await this.closePromise(fd);
@@ -355,11 +337,9 @@ class FakeFS {
     if (stat.isDirectory()) {
       if (recursive) {
         const entries = await this.readdirPromise(p);
-        await Promise.all(
-          entries.map((entry) => {
-            return this.removePromise(this.pathUtils.resolve(p, entry));
-          })
-        );
+        await Promise.all(entries.map((entry) => {
+          return this.removePromise(this.pathUtils.resolve(p, entry));
+        }));
       }
       for (let t = 0; t <= maxRetries; t++) {
         try {
@@ -389,7 +369,9 @@ class FakeFS {
       }
     }
     if (stat.isDirectory()) {
-      if (recursive) for (const entry of this.readdirSync(p)) this.removeSync(this.pathUtils.resolve(p, entry));
+      if (recursive)
+        for (const entry of this.readdirSync(p))
+          this.removeSync(this.pathUtils.resolve(p, entry));
       this.rmdirSync(p);
     } else {
       this.unlinkSync(p);
@@ -397,7 +379,8 @@ class FakeFS {
   }
   async mkdirpPromise(p, { chmod, utimes } = {}) {
     p = this.resolve(p);
-    if (p === this.pathUtils.dirname(p)) return void 0;
+    if (p === this.pathUtils.dirname(p))
+      return void 0;
     const parts = p.split(this.pathUtils.sep);
     let createdDirectory;
     for (let u = 2; u <= parts.length; ++u) {
@@ -413,7 +396,8 @@ class FakeFS {
           }
         }
         createdDirectory ??= subPath;
-        if (chmod != null) await this.chmodPromise(subPath, chmod);
+        if (chmod != null)
+          await this.chmodPromise(subPath, chmod);
         if (utimes != null) {
           await this.utimesPromise(subPath, utimes[0], utimes[1]);
         } else {
@@ -426,7 +410,8 @@ class FakeFS {
   }
   mkdirpSync(p, { chmod, utimes } = {}) {
     p = this.resolve(p);
-    if (p === this.pathUtils.dirname(p)) return void 0;
+    if (p === this.pathUtils.dirname(p))
+      return void 0;
     const parts = p.split(this.pathUtils.sep);
     let createdDirectory;
     for (let u = 2; u <= parts.length; ++u) {
@@ -442,7 +427,8 @@ class FakeFS {
           }
         }
         createdDirectory ??= subPath;
-        if (chmod != null) this.chmodSync(subPath, chmod);
+        if (chmod != null)
+          this.chmodSync(subPath, chmod);
         if (utimes != null) {
           this.utimesSync(subPath, utimes[0], utimes[1]);
         } else {
@@ -467,13 +453,15 @@ class FakeFS {
       }
     } else if (stat.isFile()) {
       if (!exists || overwrite) {
-        if (exists) this.removeSync(destination);
+        if (exists)
+          this.removeSync(destination);
         const content = baseFs.readFileSync(source);
         this.writeFileSync(destination, content);
       }
     } else if (stat.isSymbolicLink()) {
       if (!exists || overwrite) {
-        if (exists) this.removeSync(destination);
+        if (exists)
+          this.removeSync(destination);
         const target = baseFs.readlinkSync(source);
         this.symlinkSync(convertPath(this.pathUtils, target), destination);
       }
@@ -494,17 +482,21 @@ class FakeFS {
     let current = Buffer.alloc(0);
     try {
       current = await this.readFilePromise(p);
-    } catch (error) {}
-    if (Buffer.compare(current, content) === 0) return;
+    } catch (error) {
+    }
+    if (Buffer.compare(current, content) === 0)
+      return;
     await this.writeFilePromise(p, content, { mode });
   }
   async changeFileTextPromise(p, content, { automaticNewlines, mode } = {}) {
     let current = ``;
     try {
       current = await this.readFilePromise(p, `utf8`);
-    } catch (error) {}
+    } catch (error) {
+    }
     const normalizedContent = automaticNewlines ? normalizeLineEndings(current, content) : content;
-    if (current === normalizedContent) return;
+    if (current === normalizedContent)
+      return;
     await this.writeFilePromise(p, normalizedContent, { mode });
   }
   changeFileSync(p, content, opts = {}) {
@@ -518,17 +510,21 @@ class FakeFS {
     let current = Buffer.alloc(0);
     try {
       current = this.readFileSync(p);
-    } catch (error) {}
-    if (Buffer.compare(current, content) === 0) return;
+    } catch (error) {
+    }
+    if (Buffer.compare(current, content) === 0)
+      return;
     this.writeFileSync(p, content, { mode });
   }
   changeFileTextSync(p, content, { automaticNewlines = false, mode } = {}) {
     let current = ``;
     try {
       current = this.readFileSync(p, `utf8`);
-    } catch (error) {}
+    } catch (error) {
+    }
     const normalizedContent = automaticNewlines ? normalizeLineEndings(current, content) : content;
-    if (current === normalizedContent) return;
+    if (current === normalizedContent)
+      return;
     this.writeFileSync(p, normalizedContent, { mode });
   }
   async movePromise(fromP, toP) {
@@ -579,11 +575,12 @@ class FakeFS {
         fd = await this.openPromise(lockPath, `wx`);
       } catch (error) {
         if (error.code === `EEXIST`) {
-          if (!(await isAlive())) {
+          if (!await isAlive()) {
             try {
               await this.unlinkPromise(lockPath);
               continue;
-            } catch (error2) {}
+            } catch (error2) {
+            }
           }
           if (Date.now() - startTime < 60 * 1e3) {
             await new Promise((resolve) => setTimeout(resolve, interval));
@@ -602,7 +599,8 @@ class FakeFS {
       try {
         await this.closePromise(fd);
         await this.unlinkPromise(lockPath);
-      } catch (error) {}
+      } catch (error) {
+      }
     }
   }
   async readJsonPromise(p) {
@@ -625,30 +623,26 @@ class FakeFS {
   }
   async writeJsonPromise(p, data, { compact = false } = {}) {
     const space = compact ? 0 : 2;
-    return await this.writeFilePromise(
-      p,
-      `${JSON.stringify(data, null, space)}
-`
-    );
+    return await this.writeFilePromise(p, `${JSON.stringify(data, null, space)}
+`);
   }
   writeJsonSync(p, data, { compact = false } = {}) {
     const space = compact ? 0 : 2;
-    return this.writeFileSync(
-      p,
-      `${JSON.stringify(data, null, space)}
-`
-    );
+    return this.writeFileSync(p, `${JSON.stringify(data, null, space)}
+`);
   }
   async preserveTimePromise(p, cb) {
     const stat = await this.lstatPromise(p);
     const result = await cb();
-    if (typeof result !== `undefined`) p = result;
+    if (typeof result !== `undefined`)
+      p = result;
     await this.lutimesPromise(p, stat.atime, stat.mtime);
   }
   async preserveTimeSync(p, cb) {
     const stat = this.lstatSync(p);
     const result = cb();
-    if (typeof result !== `undefined`) p = result;
+    if (typeof result !== `undefined`)
+      p = result;
     this.lutimesSync(p, stat.atime, stat.mtime);
   }
 }
@@ -659,18 +653,13 @@ class BasePortableFakeFS extends FakeFS {
 }
 function getEndOfLine(content) {
   const matches = content.match(/\r?\n/g);
-  if (matches === null) return EOL;
-  const crlf = matches.filter(
-    (nl) =>
-      nl ===
-      `\r
-`
-  ).length;
+  if (matches === null)
+    return EOL;
+  const crlf = matches.filter((nl) => nl === `\r
+`).length;
   const lf = matches.length - crlf;
-  return crlf > lf
-    ? `\r
-`
-    : `
+  return crlf > lf ? `\r
+` : `
 `;
 }
 function normalizeLineEndings(originalContent, newContent) {
@@ -859,14 +848,16 @@ class ProxiedFS extends FakeFS {
   }
   async symlinkPromise(target, p, type) {
     const mappedP = this.mapToBase(p);
-    if (this.pathUtils.isAbsolute(target)) return this.baseFs.symlinkPromise(this.mapToBase(target), mappedP, type);
+    if (this.pathUtils.isAbsolute(target))
+      return this.baseFs.symlinkPromise(this.mapToBase(target), mappedP, type);
     const mappedAbsoluteTarget = this.mapToBase(this.pathUtils.join(this.pathUtils.dirname(p), target));
     const mappedTarget = this.baseFs.pathUtils.relative(this.baseFs.pathUtils.dirname(mappedP), mappedAbsoluteTarget);
     return this.baseFs.symlinkPromise(mappedTarget, mappedP, type);
   }
   symlinkSync(target, p, type) {
     const mappedP = this.mapToBase(p);
-    if (this.pathUtils.isAbsolute(target)) return this.baseFs.symlinkSync(this.mapToBase(target), mappedP, type);
+    if (this.pathUtils.isAbsolute(target))
+      return this.baseFs.symlinkSync(this.mapToBase(target), mappedP, type);
     const mappedAbsoluteTarget = this.mapToBase(this.pathUtils.join(this.pathUtils.dirname(p), target));
     const mappedTarget = this.baseFs.pathUtils.relative(this.baseFs.pathUtils.dirname(mappedP), mappedAbsoluteTarget);
     return this.baseFs.symlinkSync(mappedTarget, mappedP, type);
@@ -931,7 +922,8 @@ class ProxiedFS extends FakeFS {
 
 function direntToPortable(dirent) {
   const portableDirent = dirent;
-  if (typeof dirent.path === `string`) portableDirent.path = npath.toPortablePath(dirent.path);
+  if (typeof dirent.path === `string`)
+    portableDirent.path = npath.toPortablePath(dirent.path);
   return portableDirent;
 }
 class NodeFS extends BasePortableFakeFS {
@@ -969,7 +961,7 @@ class NodeFS extends BasePortableFakeFS {
       Object.defineProperty(dirWithFixedPath, `path`, {
         value: p,
         configurable: true,
-        writable: true,
+        writable: true
       });
       return dirWithFixedPath;
     });
@@ -980,7 +972,7 @@ class NodeFS extends BasePortableFakeFS {
     Object.defineProperty(dirWithFixedPath, `path`, {
       value: p,
       configurable: true,
-      writable: true,
+      writable: true
     });
     return dirWithFixedPath;
   }
@@ -1275,17 +1267,9 @@ class NodeFS extends BasePortableFakeFS {
       if (opts) {
         if (opts.recursive && process.platform === `win32`) {
           if (opts.withFileTypes) {
-            this.realFs.readdir(
-              npath.fromPortablePath(p),
-              opts,
-              this.makeCallback((results) => resolve(results.map(direntToPortable)), reject)
-            );
+            this.realFs.readdir(npath.fromPortablePath(p), opts, this.makeCallback((results) => resolve(results.map(direntToPortable)), reject));
           } else {
-            this.realFs.readdir(
-              npath.fromPortablePath(p),
-              opts,
-              this.makeCallback((results) => resolve(results.map(npath.toPortablePath)), reject)
-            );
+            this.realFs.readdir(npath.fromPortablePath(p), opts, this.makeCallback((results) => resolve(results.map(npath.toPortablePath)), reject));
           }
         } else {
           this.realFs.readdir(npath.fromPortablePath(p), opts, this.makeCallback(resolve, reject));
@@ -1372,23 +1356,29 @@ const VALID_COMPONENT = /^([^/]+-)?[a-f0-9]+$/;
 class VirtualFS extends ProxiedFS {
   baseFs;
   static makeVirtualPath(base, component, to) {
-    if (ppath.basename(base) !== `__virtual__`) throw new Error(`Assertion failed: Virtual folders must be named "__virtual__"`);
-    if (!ppath.basename(component).match(VALID_COMPONENT)) throw new Error(`Assertion failed: Virtual components must be ended by an hexadecimal hash`);
+    if (ppath.basename(base) !== `__virtual__`)
+      throw new Error(`Assertion failed: Virtual folders must be named "__virtual__"`);
+    if (!ppath.basename(component).match(VALID_COMPONENT))
+      throw new Error(`Assertion failed: Virtual components must be ended by an hexadecimal hash`);
     const target = ppath.relative(ppath.dirname(base), to);
     const segments = target.split(`/`);
     let depth = 0;
-    while (depth < segments.length && segments[depth] === `..`) depth += 1;
+    while (depth < segments.length && segments[depth] === `..`)
+      depth += 1;
     const finalSegments = segments.slice(depth);
     const fullVirtualPath = ppath.join(base, component, String(depth), ...finalSegments);
     return fullVirtualPath;
   }
   static resolveVirtual(p) {
     const match = p.match(VIRTUAL_REGEXP);
-    if (!match || (!match[3] && match[5])) return p;
+    if (!match || !match[3] && match[5])
+      return p;
     const target = ppath.dirname(match[1]);
-    if (!match[3] || !match[4]) return target;
+    if (!match[3] || !match[4])
+      return target;
     const isnum = NUMBER_REGEXP.test(match[4]);
-    if (!isnum) return p;
+    if (!isnum)
+      return p;
     const depth = Number(match[4]);
     const backstep = `../`.repeat(depth);
     const subpath = match[5] || `.`;
@@ -1406,21 +1396,27 @@ class VirtualFS extends ProxiedFS {
   }
   realpathSync(p) {
     const match = p.match(VIRTUAL_REGEXP);
-    if (!match) return this.baseFs.realpathSync(p);
-    if (!match[5]) return p;
+    if (!match)
+      return this.baseFs.realpathSync(p);
+    if (!match[5])
+      return p;
     const realpath = this.baseFs.realpathSync(this.mapToBase(p));
     return VirtualFS.makeVirtualPath(match[1], match[3], realpath);
   }
   async realpathPromise(p) {
     const match = p.match(VIRTUAL_REGEXP);
-    if (!match) return await this.baseFs.realpathPromise(p);
-    if (!match[5]) return p;
+    if (!match)
+      return await this.baseFs.realpathPromise(p);
+    if (!match[5])
+      return p;
     const realpath = await this.baseFs.realpathPromise(this.mapToBase(p));
     return VirtualFS.makeVirtualPath(match[1], match[3], realpath);
   }
   mapToBase(p) {
-    if (p === ``) return p;
-    if (this.pathUtils.isAbsolute(p)) return VirtualFS.resolveVirtual(p);
+    if (p === ``)
+      return p;
+    if (this.pathUtils.isAbsolute(p))
+      return VirtualFS.resolveVirtual(p);
     const resolvedRoot = VirtualFS.resolveVirtual(this.baseFs.resolve(PortablePath.dot));
     const resolvedP = VirtualFS.resolveVirtual(this.baseFs.resolve(p));
     return ppath.relative(resolvedRoot, resolvedP) || PortablePath.dot;
@@ -1433,9 +1429,9 @@ class VirtualFS extends ProxiedFS {
 const URL = Number(process.versions.node.split('.', 1)[0]) < 20 ? URL$1 : globalThis.URL;
 
 const [major, minor] = process.versions.node.split(`.`).map((value) => parseInt(value, 10));
-const WATCH_MODE_MESSAGE_USES_ARRAYS = major > 19 || (major === 19 && minor >= 2) || (major === 18 && minor >= 13);
-const HAS_LAZY_LOADED_TRANSLATORS = (major === 20 && minor < 6) || (major === 19 && minor >= 3);
-const SUPPORTS_IMPORT_ATTRIBUTES = major >= 21 || (major === 20 && minor >= 10) || (major === 18 && minor >= 20);
+const WATCH_MODE_MESSAGE_USES_ARRAYS = major > 19 || major === 19 && minor >= 2 || major === 18 && minor >= 13;
+const HAS_LAZY_LOADED_TRANSLATORS = major === 20 && minor < 6 || major === 19 && minor >= 3;
+const SUPPORTS_IMPORT_ATTRIBUTES = major >= 21 || major === 20 && minor >= 10 || major === 18 && minor >= 20;
 const SUPPORTS_IMPORT_ATTRIBUTES_ONLY = major >= 22;
 
 function readPackageScope(checkPath) {
@@ -1444,12 +1440,13 @@ function readPackageScope(checkPath) {
   do {
     separatorIndex = checkPath.lastIndexOf(npath.sep);
     checkPath = checkPath.slice(0, separatorIndex);
-    if (checkPath.endsWith(`${npath.sep}node_modules`)) return false;
+    if (checkPath.endsWith(`${npath.sep}node_modules`))
+      return false;
     const pjson = readPackage(checkPath + npath.sep);
     if (pjson) {
       return {
         data: pjson,
-        path: checkPath,
+        path: checkPath
       };
     }
   } while (separatorIndex > rootSeparatorIndex);
@@ -1457,7 +1454,8 @@ function readPackageScope(checkPath) {
 }
 function readPackage(requestPath) {
   const jsonPath = npath.resolve(requestPath, `package.json`);
-  if (!fs.existsSync(jsonPath)) return null;
+  if (!fs.existsSync(jsonPath))
+    return null;
   return JSON.parse(fs.readFileSync(jsonPath, `utf8`));
 }
 
@@ -1465,7 +1463,8 @@ async function tryReadFile$1(path2) {
   try {
     return await fs.promises.readFile(path2, `utf8`);
   } catch (error) {
-    if (error.code === `ENOENT`) return null;
+    if (error.code === `ENOENT`)
+      return null;
     throw error;
   }
 }
@@ -1490,21 +1489,27 @@ function getFileFormat(filepath) {
       return `commonjs`;
     }
     case `.wasm`: {
-      throw new Error(`Unknown file extension ".wasm" for ${filepath}`);
+      throw new Error(
+        `Unknown file extension ".wasm" for ${filepath}`
+      );
     }
     case `.json`: {
       return `json`;
     }
     case `.js`: {
       const pkg = readPackageScope(filepath);
-      if (!pkg) return `commonjs`;
+      if (!pkg)
+        return `commonjs`;
       return pkg.data.type ?? `commonjs`;
     }
     default: {
-      if (entrypointPath !== filepath) return null;
+      if (entrypointPath !== filepath)
+        return null;
       const pkg = readPackageScope(filepath);
-      if (!pkg) return `commonjs`;
-      if (pkg.data.type === `module`) return null;
+      if (!pkg)
+        return `commonjs`;
+      if (pkg.data.type === `module`)
+        return null;
       return pkg.data.type ?? `commonjs`;
     }
   }
@@ -1512,10 +1517,12 @@ function getFileFormat(filepath) {
 
 async function load$1(urlString, context, nextLoad) {
   const url = tryParseURL(urlString);
-  if (url?.protocol !== `file:`) return nextLoad(urlString, context, nextLoad);
+  if (url?.protocol !== `file:`)
+    return nextLoad(urlString, context, nextLoad);
   const filePath = fileURLToPath(url);
   const format = getFileFormat(filePath);
-  if (!format) return nextLoad(urlString, context, nextLoad);
+  if (!format)
+    return nextLoad(urlString, context, nextLoad);
   if (format === `json`) {
     if (SUPPORTS_IMPORT_ATTRIBUTES_ONLY) {
       if (context.importAttributes?.type !== `json`) {
@@ -1526,24 +1533,26 @@ async function load$1(urlString, context, nextLoad) {
     } else {
       const type = `importAttributes` in context ? context.importAttributes?.type : context.importAssertions?.type;
       if (type !== `json`) {
-        const err = new TypeError(
-          `[ERR_IMPORT_ASSERTION_TYPE_MISSING]: Module "${urlString}" needs an import ${SUPPORTS_IMPORT_ATTRIBUTES ? `attribute` : `assertion`} of type "json"`
-        );
+        const err = new TypeError(`[ERR_IMPORT_ASSERTION_TYPE_MISSING]: Module "${urlString}" needs an import ${SUPPORTS_IMPORT_ATTRIBUTES ? `attribute` : `assertion`} of type "json"`);
         err.code = `ERR_IMPORT_ASSERTION_TYPE_MISSING`;
         throw err;
       }
     }
   }
   if (process.env.WATCH_REPORT_DEPENDENCIES && process.send) {
-    const pathToSend = pathToFileURL(npath.fromPortablePath(VirtualFS.resolveVirtual(npath.toPortablePath(filePath)))).href;
+    const pathToSend = pathToFileURL(
+      npath.fromPortablePath(
+        VirtualFS.resolveVirtual(npath.toPortablePath(filePath))
+      )
+    ).href;
     process.send({
-      'watch:import': WATCH_MODE_MESSAGE_USES_ARRAYS ? [pathToSend] : pathToSend,
+      "watch:import": WATCH_MODE_MESSAGE_USES_ARRAYS ? [pathToSend] : pathToSend
     });
   }
   return {
     format,
     source: format === `commonjs` ? void 0 : await fs.promises.readFile(filePath, `utf8`),
-    shortCircuit: true,
+    shortCircuit: true
   };
 }
 
@@ -1632,9 +1641,9 @@ function getPackageConfig(path, specifier, base, readFileSyncFn) {
       exists: false,
       main: void 0,
       name: void 0,
-      type: 'none',
+      type: "none",
       exports: void 0,
-      imports: void 0,
+      imports: void 0
     };
     packageJSONCache.set(path, packageConfig2);
     return packageConfig2;
@@ -1643,21 +1652,30 @@ function getPackageConfig(path, specifier, base, readFileSyncFn) {
   try {
     packageJSON = JSONParse(source);
   } catch (error) {
-    throw new ERR_INVALID_PACKAGE_CONFIG(path, (base ? `"${specifier}" from ` : '') + fileURLToPath(base || specifier), error.message);
+    throw new ERR_INVALID_PACKAGE_CONFIG(
+      path,
+      (base ? `"${specifier}" from ` : "") + fileURLToPath(base || specifier),
+      error.message
+    );
   }
-  let { imports, main, name, type } = filterOwnProperties(packageJSON, ['imports', 'main', 'name', 'type']);
-  const exports = ObjectPrototypeHasOwnProperty(packageJSON, 'exports') ? packageJSON.exports : void 0;
-  if (typeof imports !== 'object' || imports === null) {
+  let { imports, main, name, type } = filterOwnProperties(packageJSON, [
+    "imports",
+    "main",
+    "name",
+    "type"
+  ]);
+  const exports = ObjectPrototypeHasOwnProperty(packageJSON, "exports") ? packageJSON.exports : void 0;
+  if (typeof imports !== "object" || imports === null) {
     imports = void 0;
   }
-  if (typeof main !== 'string') {
+  if (typeof main !== "string") {
     main = void 0;
   }
-  if (typeof name !== 'string') {
+  if (typeof name !== "string") {
     name = void 0;
   }
-  if (type !== 'module' && type !== 'commonjs') {
-    type = 'none';
+  if (type !== "module" && type !== "commonjs") {
+    type = "none";
   }
   const packageConfig = {
     pjsonPath: path,
@@ -1666,24 +1684,29 @@ function getPackageConfig(path, specifier, base, readFileSyncFn) {
     name,
     type,
     exports,
-    imports,
+    imports
   };
   packageJSONCache.set(path, packageConfig);
   return packageConfig;
 }
 function getPackageScopeConfig(resolved, readFileSyncFn) {
-  let packageJSONUrl = new URL('./package.json', resolved);
+  let packageJSONUrl = new URL("./package.json", resolved);
   while (true) {
     const packageJSONPath2 = packageJSONUrl.pathname;
-    if (StringPrototypeEndsWith(packageJSONPath2, 'node_modules/package.json')) {
+    if (StringPrototypeEndsWith(packageJSONPath2, "node_modules/package.json")) {
       break;
     }
-    const packageConfig2 = getPackageConfig(fileURLToPath(packageJSONUrl), resolved, void 0, readFileSyncFn);
+    const packageConfig2 = getPackageConfig(
+      fileURLToPath(packageJSONUrl),
+      resolved,
+      void 0,
+      readFileSyncFn
+    );
     if (packageConfig2.exists) {
       return packageConfig2;
     }
     const lastPackageJSONUrl = packageJSONUrl;
-    packageJSONUrl = new URL('../package.json', packageJSONUrl);
+    packageJSONUrl = new URL("../package.json", packageJSONUrl);
     if (packageJSONUrl.pathname === lastPackageJSONUrl.pathname) {
       break;
     }
@@ -1694,41 +1717,56 @@ function getPackageScopeConfig(resolved, readFileSyncFn) {
     exists: false,
     main: void 0,
     name: void 0,
-    type: 'none',
+    type: "none",
     exports: void 0,
-    imports: void 0,
+    imports: void 0
   };
   packageJSONCache.set(packageJSONPath, packageConfig);
   return packageConfig;
 }
 
 function throwImportNotDefined(specifier, packageJSONUrl, base) {
-  throw new ERR_PACKAGE_IMPORT_NOT_DEFINED(specifier, packageJSONUrl && fileURLToPath(new URL('.', packageJSONUrl)), fileURLToPath(base));
+  throw new ERR_PACKAGE_IMPORT_NOT_DEFINED(
+    specifier,
+    packageJSONUrl && fileURLToPath(new URL(".", packageJSONUrl)),
+    fileURLToPath(base)
+  );
 }
 function throwInvalidSubpath(subpath, packageJSONUrl, internal, base) {
-  const reason = `request is not a valid subpath for the "${internal ? 'imports' : 'exports'}" resolution of ${fileURLToPath(packageJSONUrl)}`;
-  throw new ERR_INVALID_MODULE_SPECIFIER(subpath, reason, base && fileURLToPath(base));
+  const reason = `request is not a valid subpath for the "${internal ? "imports" : "exports"}" resolution of ${fileURLToPath(packageJSONUrl)}`;
+  throw new ERR_INVALID_MODULE_SPECIFIER(
+    subpath,
+    reason,
+    base && fileURLToPath(base)
+  );
 }
 function throwInvalidPackageTarget(subpath, target, packageJSONUrl, internal, base) {
-  if (typeof target === 'object' && target !== null) {
-    target = JSONStringify(target, null, '');
+  if (typeof target === "object" && target !== null) {
+    target = JSONStringify(target, null, "");
   } else {
     target = `${target}`;
   }
-  throw new ERR_INVALID_PACKAGE_TARGET(fileURLToPath(new URL('.', packageJSONUrl)), subpath, target, internal, base && fileURLToPath(base));
+  throw new ERR_INVALID_PACKAGE_TARGET(
+    fileURLToPath(new URL(".", packageJSONUrl)),
+    subpath,
+    target,
+    internal,
+    base && fileURLToPath(base)
+  );
 }
-const invalidSegmentRegEx =
-  /(^|\\|\/)((\.|%2e)(\.|%2e)?|(n|%6e|%4e)(o|%6f|%4f)(d|%64|%44)(e|%65|%45)(_|%5f)(m|%6d|%4d)(o|%6f|%4f)(d|%64|%44)(u|%75|%55)(l|%6c|%4c)(e|%65|%45)(s|%73|%53))(\\|\/|$)/i;
+const invalidSegmentRegEx = /(^|\\|\/)((\.|%2e)(\.|%2e)?|(n|%6e|%4e)(o|%6f|%4f)(d|%64|%44)(e|%65|%45)(_|%5f)(m|%6d|%4d)(o|%6f|%4f)(d|%64|%44)(u|%75|%55)(l|%6c|%4c)(e|%65|%45)(s|%73|%53))(\\|\/|$)/i;
 const patternRegEx = /\*/g;
 function resolvePackageTargetString(target, subpath, match, packageJSONUrl, base, pattern, internal, conditions) {
-  if (subpath !== '' && !pattern && target[target.length - 1] !== '/') throwInvalidPackageTarget(match, target, packageJSONUrl, internal, base);
-  if (!StringPrototypeStartsWith(target, './')) {
-    if (internal && !StringPrototypeStartsWith(target, '../') && !StringPrototypeStartsWith(target, '/')) {
+  if (subpath !== "" && !pattern && target[target.length - 1] !== "/")
+    throwInvalidPackageTarget(match, target, packageJSONUrl, internal, base);
+  if (!StringPrototypeStartsWith(target, "./")) {
+    if (internal && !StringPrototypeStartsWith(target, "../") && !StringPrototypeStartsWith(target, "/")) {
       let isURL = false;
       try {
         new URL(target);
         isURL = true;
-      } catch {}
+      } catch {
+      }
       if (!isURL) {
         const exportTarget = pattern ? RegExpPrototypeSymbolReplace(patternRegEx, target, () => subpath) : target + subpath;
         return exportTarget;
@@ -1736,19 +1774,25 @@ function resolvePackageTargetString(target, subpath, match, packageJSONUrl, base
     }
     throwInvalidPackageTarget(match, target, packageJSONUrl, internal, base);
   }
-  if (RegExpPrototypeExec(invalidSegmentRegEx, StringPrototypeSlice(target, 2)) !== null)
+  if (RegExpPrototypeExec(
+    invalidSegmentRegEx,
+    StringPrototypeSlice(target, 2)
+  ) !== null)
     throwInvalidPackageTarget(match, target, packageJSONUrl, internal, base);
   const resolved = new URL(target, packageJSONUrl);
   const resolvedPath = resolved.pathname;
-  const packagePath = new URL('.', packageJSONUrl).pathname;
-  if (!StringPrototypeStartsWith(resolvedPath, packagePath)) throwInvalidPackageTarget(match, target, packageJSONUrl, internal, base);
-  if (subpath === '') return resolved;
+  const packagePath = new URL(".", packageJSONUrl).pathname;
+  if (!StringPrototypeStartsWith(resolvedPath, packagePath))
+    throwInvalidPackageTarget(match, target, packageJSONUrl, internal, base);
+  if (subpath === "") return resolved;
   if (RegExpPrototypeExec(invalidSegmentRegEx, subpath) !== null) {
-    const request = pattern ? StringPrototypeReplace(match, '*', () => subpath) : match + subpath;
+    const request = pattern ? StringPrototypeReplace(match, "*", () => subpath) : match + subpath;
     throwInvalidSubpath(request, packageJSONUrl, internal, base);
   }
   if (pattern) {
-    return new URL(RegExpPrototypeSymbolReplace(patternRegEx, resolved.href, () => subpath));
+    return new URL(
+      RegExpPrototypeSymbolReplace(patternRegEx, resolved.href, () => subpath)
+    );
   }
   return new URL(subpath, resolved);
 }
@@ -1758,8 +1802,15 @@ function isArrayIndex(key) {
   return keyNum >= 0 && keyNum < 4294967295;
 }
 function resolvePackageTarget(packageJSONUrl, target, subpath, packageSubpath, base, pattern, internal, conditions) {
-  if (typeof target === 'string') {
-    return resolvePackageTargetString(target, subpath, packageSubpath, packageJSONUrl, base, pattern, internal);
+  if (typeof target === "string") {
+    return resolvePackageTargetString(
+      target,
+      subpath,
+      packageSubpath,
+      packageJSONUrl,
+      base,
+      pattern,
+      internal);
   } else if (ArrayIsArray(target)) {
     if (target.length === 0) {
       return null;
@@ -1769,10 +1820,19 @@ function resolvePackageTarget(packageJSONUrl, target, subpath, packageSubpath, b
       const targetItem = target[i];
       let resolveResult;
       try {
-        resolveResult = resolvePackageTarget(packageJSONUrl, targetItem, subpath, packageSubpath, base, pattern, internal, conditions);
+        resolveResult = resolvePackageTarget(
+          packageJSONUrl,
+          targetItem,
+          subpath,
+          packageSubpath,
+          base,
+          pattern,
+          internal,
+          conditions
+        );
       } catch (e) {
         lastException = e;
-        if (e.code === 'ERR_INVALID_PACKAGE_TARGET') {
+        if (e.code === "ERR_INVALID_PACKAGE_TARGET") {
           continue;
         }
         throw e;
@@ -1786,21 +1846,35 @@ function resolvePackageTarget(packageJSONUrl, target, subpath, packageSubpath, b
       }
       return resolveResult;
     }
-    if (lastException === void 0 || lastException === null) return lastException;
+    if (lastException === void 0 || lastException === null)
+      return lastException;
     throw lastException;
-  } else if (typeof target === 'object' && target !== null) {
+  } else if (typeof target === "object" && target !== null) {
     const keys = ObjectGetOwnPropertyNames(target);
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       if (isArrayIndex(key)) {
-        throw new ERR_INVALID_PACKAGE_CONFIG(fileURLToPath(packageJSONUrl), base, '"exports" cannot contain numeric property keys.');
+        throw new ERR_INVALID_PACKAGE_CONFIG(
+          fileURLToPath(packageJSONUrl),
+          base,
+          '"exports" cannot contain numeric property keys.'
+        );
       }
     }
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
-      if (key === 'default' || conditions.has(key)) {
+      if (key === "default" || conditions.has(key)) {
         const conditionalTarget = target[key];
-        const resolveResult = resolvePackageTarget(packageJSONUrl, conditionalTarget, subpath, packageSubpath, base, pattern, internal, conditions);
+        const resolveResult = resolvePackageTarget(
+          packageJSONUrl,
+          conditionalTarget,
+          subpath,
+          packageSubpath,
+          base,
+          pattern,
+          internal,
+          conditions
+        );
         if (resolveResult === void 0) continue;
         return resolveResult;
       }
@@ -1809,11 +1883,17 @@ function resolvePackageTarget(packageJSONUrl, target, subpath, packageSubpath, b
   } else if (target === null) {
     return null;
   }
-  throwInvalidPackageTarget(packageSubpath, target, packageJSONUrl, internal, base);
+  throwInvalidPackageTarget(
+    packageSubpath,
+    target,
+    packageJSONUrl,
+    internal,
+    base
+  );
 }
 function patternKeyCompare(a, b) {
-  const aPatternIndex = StringPrototypeIndexOf(a, '*');
-  const bPatternIndex = StringPrototypeIndexOf(b, '*');
+  const aPatternIndex = StringPrototypeIndexOf(a, "*");
+  const bPatternIndex = StringPrototypeIndexOf(b, "*");
   const baseLenA = aPatternIndex === -1 ? a.length : aPatternIndex + 1;
   const baseLenB = bPatternIndex === -1 ? b.length : bPatternIndex + 1;
   if (baseLenA > baseLenB) return -1;
@@ -1825,8 +1905,8 @@ function patternKeyCompare(a, b) {
   return 0;
 }
 function packageImportsResolve({ name, base, conditions, readFileSyncFn }) {
-  if (name === '#' || StringPrototypeStartsWith(name, '#/') || StringPrototypeEndsWith(name, '/')) {
-    const reason = 'is not a valid internal imports specifier name';
+  if (name === "#" || StringPrototypeStartsWith(name, "#/") || StringPrototypeEndsWith(name, "/")) {
+    const reason = "is not a valid internal imports specifier name";
     throw new ERR_INVALID_MODULE_SPECIFIER(name, reason, fileURLToPath(base));
   }
   let packageJSONUrl;
@@ -1835,34 +1915,54 @@ function packageImportsResolve({ name, base, conditions, readFileSyncFn }) {
     packageJSONUrl = pathToFileURL(packageConfig.pjsonPath);
     const imports = packageConfig.imports;
     if (imports) {
-      if (ObjectPrototypeHasOwnProperty(imports, name) && !StringPrototypeIncludes(name, '*')) {
-        const resolveResult = resolvePackageTarget(packageJSONUrl, imports[name], '', name, base, false, true, conditions);
+      if (ObjectPrototypeHasOwnProperty(imports, name) && !StringPrototypeIncludes(name, "*")) {
+        const resolveResult = resolvePackageTarget(
+          packageJSONUrl,
+          imports[name],
+          "",
+          name,
+          base,
+          false,
+          true,
+          conditions
+        );
         if (resolveResult != null) {
           return resolveResult;
         }
       } else {
-        let bestMatch = '';
+        let bestMatch = "";
         let bestMatchSubpath;
         const keys = ObjectGetOwnPropertyNames(imports);
         for (let i = 0; i < keys.length; i++) {
           const key = keys[i];
-          const patternIndex = StringPrototypeIndexOf(key, '*');
-          if (patternIndex !== -1 && StringPrototypeStartsWith(name, StringPrototypeSlice(key, 0, patternIndex))) {
+          const patternIndex = StringPrototypeIndexOf(key, "*");
+          if (patternIndex !== -1 && StringPrototypeStartsWith(
+            name,
+            StringPrototypeSlice(key, 0, patternIndex)
+          )) {
             const patternTrailer = StringPrototypeSlice(key, patternIndex + 1);
-            if (
-              name.length >= key.length &&
-              StringPrototypeEndsWith(name, patternTrailer) &&
-              patternKeyCompare(bestMatch, key) === 1 &&
-              StringPrototypeLastIndexOf(key, '*') === patternIndex
-            ) {
+            if (name.length >= key.length && StringPrototypeEndsWith(name, patternTrailer) && patternKeyCompare(bestMatch, key) === 1 && StringPrototypeLastIndexOf(key, "*") === patternIndex) {
               bestMatch = key;
-              bestMatchSubpath = StringPrototypeSlice(name, patternIndex, name.length - patternTrailer.length);
+              bestMatchSubpath = StringPrototypeSlice(
+                name,
+                patternIndex,
+                name.length - patternTrailer.length
+              );
             }
           }
         }
         if (bestMatch) {
           const target = imports[bestMatch];
-          const resolveResult = resolvePackageTarget(packageJSONUrl, target, bestMatchSubpath, bestMatch, base, true, true, conditions);
+          const resolveResult = resolvePackageTarget(
+            packageJSONUrl,
+            target,
+            bestMatchSubpath,
+            bestMatch,
+            base,
+            true,
+            true,
+            conditions
+          );
           if (resolveResult != null) {
             return resolveResult;
           }
@@ -1886,7 +1986,8 @@ function tryReadFile(filePath) {
   try {
     return fs.readFileSync(filePath, `utf8`);
   } catch (err) {
-    if (err.code === `ENOENT`) return void 0;
+    if (err.code === `ENOENT`)
+      return void 0;
     throw err;
   }
 }
@@ -1895,28 +1996,33 @@ async function resolvePrivateRequest(specifier, issuer, context, nextResolve) {
     name: specifier,
     base: pathToFileURL(issuer),
     conditions: new Set(context.conditions),
-    readFileSyncFn: tryReadFile,
+    readFileSyncFn: tryReadFile
   });
   if (resolved instanceof URL) {
     return { url: resolved.href, shortCircuit: true };
   } else {
-    if (resolved.startsWith(`#`)) throw new Error(`Mapping from one private import to another isn't allowed`);
+    if (resolved.startsWith(`#`))
+      throw new Error(`Mapping from one private import to another isn't allowed`);
     return resolve$1(resolved, context, nextResolve);
   }
 }
 async function resolve$1(originalSpecifier, context, nextResolve) {
-  if (!findPnpApi || isBuiltin(originalSpecifier)) return nextResolve(originalSpecifier, context, nextResolve);
+  if (!findPnpApi || isBuiltin(originalSpecifier))
+    return nextResolve(originalSpecifier, context, nextResolve);
   let specifier = originalSpecifier;
   const url = tryParseURL(specifier, isRelativeRegexp.test(specifier) ? context.parentURL : void 0);
   if (url) {
-    if (url.protocol !== `file:`) return nextResolve(originalSpecifier, context, nextResolve);
+    if (url.protocol !== `file:`)
+      return nextResolve(originalSpecifier, context, nextResolve);
     specifier = fileURLToPath(url);
   }
   const { parentURL, conditions = [] } = context;
   const issuer = parentURL && tryParseURL(parentURL)?.protocol === `file:` ? fileURLToPath(parentURL) : process.cwd();
   const pnpapi = findPnpApi(issuer) ?? (url ? findPnpApi(specifier) : null);
-  if (!pnpapi) return nextResolve(originalSpecifier, context, nextResolve);
-  if (specifier.startsWith(`#`)) return resolvePrivateRequest(specifier, issuer, context, nextResolve);
+  if (!pnpapi)
+    return nextResolve(originalSpecifier, context, nextResolve);
+  if (specifier.startsWith(`#`))
+    return resolvePrivateRequest(specifier, issuer, context, nextResolve);
   const dependencyNameMatch = specifier.match(pathRegExp);
   let allowLegacyResolve = false;
   if (dependencyNameMatch) {
@@ -1937,22 +2043,25 @@ async function resolve$1(originalSpecifier, context, nextResolve) {
     result = pnpapi.resolveRequest(specifier, issuer, {
       conditions: new Set(conditions),
       // TODO: Handle --experimental-specifier-resolution=node
-      extensions: allowLegacyResolve ? void 0 : [],
+      extensions: allowLegacyResolve ? void 0 : []
     });
   } catch (err) {
-    if (err instanceof Error && `code` in err && err.code === `MODULE_NOT_FOUND`) err.code = `ERR_MODULE_NOT_FOUND`;
+    if (err instanceof Error && `code` in err && err.code === `MODULE_NOT_FOUND`)
+      err.code = `ERR_MODULE_NOT_FOUND`;
     throw err;
   }
-  if (!result) throw new Error(`Resolving '${specifier}' from '${issuer}' failed`);
+  if (!result)
+    throw new Error(`Resolving '${specifier}' from '${issuer}' failed`);
   const resultURL = pathToFileURL(result);
   if (url) {
     resultURL.search = url.search;
     resultURL.hash = url.hash;
   }
-  if (!parentURL) setEntrypointPath(fileURLToPath(resultURL));
+  if (!parentURL)
+    setEntrypointPath(fileURLToPath(resultURL));
   return {
     url: resultURL.href,
-    shortCircuit: true,
+    shortCircuit: true
   };
 }
 
@@ -1960,16 +2069,17 @@ if (!HAS_LAZY_LOADED_TRANSLATORS) {
   const binding = process.binding(`fs`);
   const originalReadFile = binding.readFileUtf8 || binding.readFileSync;
   if (originalReadFile) {
-    binding[originalReadFile.name] = function (...args) {
+    binding[originalReadFile.name] = function(...args) {
       try {
         return fs.readFileSync(args[0], {
           encoding: `utf8`,
           // @ts-expect-error - The docs says it needs to be a string but
           // links to https://nodejs.org/dist/latest-v20.x/docs/api/fs.html#file-system-flags
           // which says it can be a number which matches the implementation.
-          flag: args[1],
+          flag: args[1]
         });
-      } catch {}
+      } catch {
+      }
       return originalReadFile.apply(this, args);
     };
   } else {
@@ -1977,7 +2087,7 @@ if (!HAS_LAZY_LOADED_TRANSLATORS) {
     const originalfstat = binding2.fstat;
     const ZIP_MASK = 4278190080;
     const ZIP_MAGIC = 704643072;
-    binding2.fstat = function (...args) {
+    binding2.fstat = function(...args) {
       const [fd, useBigint, req] = args;
       if ((fd & ZIP_MASK) === ZIP_MAGIC && useBigint === false && req === void 0) {
         try {
@@ -1992,7 +2102,7 @@ if (!HAS_LAZY_LOADED_TRANSLATORS) {
             stats.blksize,
             stats.ino,
             stats.size,
-            stats.blocks,
+            stats.blocks
             // atime sec
             // atime ns
             // mtime sec
@@ -2002,7 +2112,8 @@ if (!HAS_LAZY_LOADED_TRANSLATORS) {
             // birthtime sec
             // birthtime ns
           ]);
-        } catch {}
+        } catch {
+        }
       }
       return originalfstat.apply(this, args);
     };
