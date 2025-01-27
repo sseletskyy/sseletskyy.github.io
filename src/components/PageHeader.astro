@@ -1,10 +1,12 @@
 ---
 export type Props = {
   title: string;
+  nbsp?: boolean;
 };
-const { title } = Astro.props as Props;
+const { title, nbsp = false } = Astro.props as Props;
+const formattedTitle = nbsp ? title.split(' ').join('&nbsp;') : title;
 ---
 
-<div class="title-shell">
-  <h1 set:html={title.split(' ').join('&nbsp;')} class="text-3xl leading-tight font-serif font-medium sm:text-5xl sm:leading-tight title" />
+<div class="title-shell mb-8">
+  <h1 set:html={formattedTitle} class="text-3xl text-center leading-tight font-serif font-medium sm:text-5xl sm:leading-tight title" />
 </div>

@@ -3,13 +3,16 @@ import { priceDescriptions } from './priceDescriptions';
 import { qaList } from './qa.ts';
 
 const titleDict: Dictionary = {
-  portfolio: 'Портфоліо',
-  prices: 'Вартість',
-  pregnancy: 'Вагітність',
-  newborn: 'Новонароджений малюк',
+  contact: 'Контакти',
   family: 'Сімейна фотосесія',
-  woman: 'Жіночий портрет',
+  home: 'Головна',
+  newborn: 'Новонароджений малюк',
+  portfolio: 'Портфоліо',
+  pregnancy: 'Вагітність',
+  prices: 'Вартість',
   qa: 'Запитання та відповіді',
+  testimonials: 'Відгуки',
+  woman: 'Жіночий портрет',
 };
 
 const hrefDict: Dictionary = {
@@ -142,6 +145,9 @@ const siteConfig: SiteConfig = {
     title: titleDict.qa,
     list: qaList,
   },
+  testimonials: {
+    title: titleDict.testimonials,
+  },
   title: 'Юлія Селецька',
   subtitle: 'Одеський фотограф',
   description: 'Фотозйомка вагітності, новонародженного малюка, семейна фотосесія, жіночий портрет',
@@ -151,27 +157,27 @@ const siteConfig: SiteConfig = {
   },
   headerNavLinks: [
     {
-      text: 'Головна',
+      text: titleDict.home,
       href: hrefDict.home,
     },
     {
-      text: 'Вартість',
+      text: titleDict.prices,
       href: hrefDict.prices,
     },
     {
-      text: 'Портфоліо',
+      text: titleDict.portfolio,
       href: hrefDict.portfolio,
     },
     {
-      text: 'Запитання та відповіді',
+      text: titleDict.qa,
       href: hrefDict.qa,
     },
     {
-      text: 'Відгуки',
+      text: titleDict.testimonials,
       href: hrefDict.testimonials,
     },
     {
-      text: 'Контакти',
+      text: titleDict.contact,
       href: hrefDict.contact,
     },
     // {
@@ -185,27 +191,27 @@ const siteConfig: SiteConfig = {
   ],
   footerNavLinks: [
     {
-      text: 'Головна',
+      text: titleDict.home,
       href: hrefDict.home,
     },
     {
-      text: 'Вартість',
+      text: titleDict.prices,
       href: hrefDict.prices,
     },
     {
-      text: 'Портфоліо',
+      text: titleDict.portfolio,
       href: hrefDict.portfolio,
     },
     {
-      text: 'Запитання та відповіді',
+      text: titleDict.qa,
       href: hrefDict.qa,
     },
     {
-      text: 'Відгуки',
+      text: titleDict.testimonials,
       href: hrefDict.testimonials,
     },
     {
-      text: 'Контакти',
+      text: titleDict.contact,
       href: hrefDict.contact,
     },
   ],

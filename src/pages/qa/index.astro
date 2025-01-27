@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import siteConfig from '../../data/site-config';
-import Portfolio from '../../components/Portfolio.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import QuestionsAndAnswers from '../../components/QuestionsAndAnswers.astro';
 
-const prices = siteConfig.prices;
+const { title, list } = siteConfig.qa;
 ---
 
 <BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
-  <PageHeader title={prices.title} />
-  <Portfolio list={prices.list} />
+  <PageHeader title={title} nbsp={false} />
+  <QuestionsAndAnswers list={list} />
 </BaseLayout>

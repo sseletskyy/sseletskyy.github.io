@@ -72,6 +72,10 @@ export type QaPage = {
   list: QuestionAndAnswer[];
 };
 
+export type TestimonialsPage = {
+  title: string;
+};
+
 export type SiteConfig = {
   description: string;
   dictionaries: {
@@ -88,6 +92,7 @@ export type SiteConfig = {
   portfolio: PortfolioPage;
   prices: PricesPage;
   qa: QaPage;
+  testimonials: TestimonialsPage;
   postsPerPage?: number;
   projectsPerPage?: number;
   socialLinks?: Link[];

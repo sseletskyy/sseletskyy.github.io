@@ -1,0 +1,19 @@
+---
+import type { QuestionAndAnswer } from '../data/types';
+
+export type Props = {
+  list: QuestionAndAnswer[];
+};
+const { list } = Astro.props as Props;
+---
+
+<section class="grid grid-cols-1 gap-2 mt-16">
+  {
+    list.map(({ question, answer }) => (
+      <div class="sm:w-3/4 md:w-1/2 mx-auto flex flex-col gap-8 mb-32">
+        <div class="text-left italic" set:html={question} />
+        <div class="text-left" set:html={answer} />
+      </div>
+    ))
+  }
+</section>

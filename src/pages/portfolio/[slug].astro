@@ -12,16 +12,9 @@ export function getStaticPaths() {
 }
 
 const { slug } = Astro.params; // Get the slug from the URL
-const path = String(`/portfolio/${slug}/`);
 const allImages: string[] = fg.sync(`public/images/portfolio/${slug}/*.jpg`, { onlyFiles: true });
 
-const images = allImages
-  // .filter((src) => src.includes(path))
-  .map((src) => `/${src.split('public/')[1]}`)
-  .reverse();
-
-// console.log(`@@@ All Images`, allImages);
-// console.log(`@@@ filtered Images`, images);
+const images = allImages.map((src) => `/${src.split('public/')[1]}`).reverse();
 
 const title = siteConfig.dictionaries.title[slug];
 ---
@@ -29,6 +22,6 @@ const title = siteConfig.dictionaries.title[slug];
 <BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
   <PageHeader title={title} />
   <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
-  <ImageGrid imageFolder={path} images={images} />
+  <ImageGrid images={images} />
   <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
 </BaseLayout>

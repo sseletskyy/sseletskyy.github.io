@@ -1,17 +1,15 @@
 ---
 interface Props {
-  imageFolder: string;
   images: string[];
 }
 
-const { imageFolder, images } = Astro.props;
+const { images } = Astro.props;
 ---
 
-<h1>{imageFolder}</h1>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
   {
     images.map((image) => (
-      <div>
+      <div class="mx-auto">
         <img class="h-auto max-w-full rounded-md" src={image} alt="Portfolio image" data-class2="w-full h-full" loading="lazy" />
       </div>
     ))
