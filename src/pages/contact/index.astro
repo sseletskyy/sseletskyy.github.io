@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import siteConfig from '../../data/site-config';
+import PageHeader from '../../components/PageHeader.astro';
+import QuestionsAndAnswers from '../../components/QuestionsAndAnswers.astro';
+
+const title = siteConfig.dictionaries.title.contact;
+const socialLinks = siteConfig.socialLinks || [];
+const instagram = socialLinks.find(({ text }) => text === 'Instagram');
+---
+
+<BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
+  <PageHeader title={title} nbsp={false} />
+
+  <section class="w-full max-w-3xl mx-auto pb-10 sm:pb-14 grid grid-cols-1 md:grid-cols-2 gap-2 mt-8">
+    <div class="sm:w-3/4 md:w-1/2 flex flex-col gap-8 mb-16">
+      <div class="text-left font-bold">Телефон</div>
+      <div class="text-left underline"><a href="tel:+380679374999">+38067 937 4 999</a></div>
+    </div>
+    <div class="sm:w-3/4 md:w-1/2 flex flex-col gap-8 mb-16">
+      <div class="text-left font-bold">Соціальні мережі</div>
+      {
+        socialLinks.length > 0 && (
+          <div class="flex flex-wrap gap-x-4 gap-y-1">
+            {socialLinks.map((link) => (
+              <a
+                class="inline-flex items-center justify-center text-sm hover:underline hover:underline-offset-2"
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferer"
+              >
+                {link.text}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+    <div>
+      <p>Я завжди відкрита новими пропозиціям та творчим проєктам.</p>
+      <br />
+      <p>
+        Якщо у вас є ідея фотографування — пишіть мені{ !instagram ? '.' : (<> в дірект <a
+          class="inline-flex items-center justify-center text-sm hover:underline hover:underline-offset-2"
+          href={instagram.href}
+          target="_blank"
+          rel="noopener noreferer"
+        >
+        {instagram.text}.</>)}
+        </a> Я буду рада втілити найбожевільнішу фотоідею.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
