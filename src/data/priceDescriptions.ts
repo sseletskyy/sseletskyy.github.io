@@ -7,6 +7,8 @@ const BASIC_ALT = 'Базовий пакет';
 const OPTIMAL_ALT = 'Вигідний пакет';
 const PREMIUM_ALT = 'Преміум пакет';
 
+const notAvailable = 'тимчасово недоступний';
+
 const basicList: PriceDescription['list'] = [
   'тривалість фотосесії <strong>1 година</strong>',
   'не менше <strong>30 фотографій</strong>',
@@ -49,7 +51,8 @@ const pregnancyBasic: PriceDescription = {
 
 const pregnancyOptimal: PriceDescription = {
   title: OPTIMAL_TITLE,
-  price: '$250',
+  oldPrice: '$250',
+  price: notAvailable,
   image: {
     src: '/images/prices/prices-pregnancy-optimal.jpg',
     alt: OPTIMAL_ALT,
@@ -59,7 +62,8 @@ const pregnancyOptimal: PriceDescription = {
 
 const pregnancyPremium: PriceDescription = {
   title: PREMIUM_TITLE,
-  price: '$350',
+  oldPrice: '$350',
+  price: notAvailable,
   image: {
     src: '/images/prices/prices-pregnancy-premium.jpg',
     alt: PREMIUM_ALT,
@@ -69,8 +73,8 @@ const pregnancyPremium: PriceDescription = {
 
 const newbornBasic: PriceDescription = {
   title: BASIC_TITLE,
-  oldPrice: '$230',
-  price: '4000 грн',
+  // oldPrice: '$230',
+  price: '$150',
   image: {
     src: '/images/prices/prices-newborn-basic.jpg',
     alt: BASIC_ALT,
@@ -80,7 +84,8 @@ const newbornBasic: PriceDescription = {
 
 const newbornOptimal: PriceDescription = {
   title: OPTIMAL_TITLE,
-  price: '$250',
+  oldPrice: '$250',
+  price: notAvailable,
   image: {
     src: '/images/prices/prices-newborn-optimal.jpg',
     alt: OPTIMAL_ALT,
@@ -90,7 +95,8 @@ const newbornOptimal: PriceDescription = {
 
 const newbornPremium: PriceDescription = {
   title: PREMIUM_TITLE,
-  price: '$350',
+  oldPrice: '$350',
+  price: notAvailable,
   image: {
     src: '/images/prices/prices-newborn-premium.jpg',
     alt: PREMIUM_ALT,
@@ -111,7 +117,8 @@ const familyBasic: PriceDescription = {
 
 const familyOptimal: PriceDescription = {
   title: OPTIMAL_TITLE,
-  price: '$250',
+  oldPrice: '$250',
+  price: notAvailable,
   image: {
     src: '/images/prices/prices-family-optimal.jpg',
     alt: OPTIMAL_ALT,
@@ -121,7 +128,8 @@ const familyOptimal: PriceDescription = {
 
 const familyPremium: PriceDescription = {
   title: PREMIUM_TITLE,
-  price: '$350',
+  oldPrice: '$350',
+  price: notAvailable,
   image: {
     src: '/images/prices/prices-family-premium.jpg',
     alt: PREMIUM_ALT,
@@ -142,7 +150,8 @@ const womanBasic: PriceDescription = {
 
 const womanOptimal: PriceDescription = {
   title: OPTIMAL_TITLE,
-  price: '$250',
+  oldPrice: '$250',
+  price: notAvailable,
   image: {
     src: '/images/prices/prices-woman-optimal.jpg',
     alt: OPTIMAL_ALT,
@@ -152,7 +161,8 @@ const womanOptimal: PriceDescription = {
 
 const womanPremium: PriceDescription = {
   title: PREMIUM_TITLE,
-  price: '$350',
+  oldPrice: '$350',
+  price: notAvailable,
   image: {
     src: '/images/prices/prices-woman-premium.jpg',
     alt: PREMIUM_ALT,
