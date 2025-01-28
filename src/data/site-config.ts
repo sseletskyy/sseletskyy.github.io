@@ -149,7 +149,7 @@ const siteConfig: SiteConfig = {
     title: titleDict.testimonials,
   },
   title: 'Юлія Селецька',
-  subtitle: 'Одеський фотограф',
+  subtitle: '', // 'Одеський фотограф',
   description: 'Фотозйомка вагітності, новонародженного малюка, семейна фотосесія, жіночий портрет',
   logo: {
     src: '/images/home/julia-logo@2x.png',
