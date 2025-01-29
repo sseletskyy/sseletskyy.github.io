@@ -8,20 +8,48 @@ import GoBack from '../../components/GoBack.astro';
 
 export const prerender = true;
 export function getStaticPaths() {
-  return [{ params: { slug: 'pregnancy' } }, { params: { slug: 'newborn' } }, { params: { slug: 'family' } }, { params: { slug: 'woman' } }];
+  return [
+    { params: { slug: 'pregnancy' } },
+    { params: { slug: 'temp' } },
+    { params: { slug: 'newborn' } },
+    { params: { slug: 'family' } },
+    { params: { slug: 'woman' } },
+  ];
 }
 
 const { slug } = Astro.params; // Get the slug from the URL
-const allImages: string[] = fg.sync(`public/images/portfolio/${slug}/*.jpg`, { onlyFiles: true });
+const allImages: string[] = fg.sync(`public/images/portfolio/${slug}/**/*.jpg`, { onlyFiles: true });
 
-const images = allImages.map((src) => `/${src.split('public/')[1]}`).reverse();
+type Accumulator = Record<string, string[]>;
+const reduceByFolders = (acc: Accumulator, image: string): Accumulator => {
+  const split = image.split('/');
+  split.pop();
+  const key = split.join('/');
+  if (Array.isArray(acc[key])) {
+    acc[key].push(image);
+  } else {
+    acc[key] = [image];
+  }
+  return acc;
+};
 
-const title = siteConfig.dictionaries.title[slug];
+const objOfImages = allImages
+  .map((src) => `/${src.split('public/')[1]}`)
+  .reverse()
+  .reduce(reduceByFolders, {});
+
+const title = siteConfig.dictionaries.title[slug] || 'temp';
 ---
 
 <BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
   <PageHeader title={title} />
   <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
-  <ImageGrid images={images} />
+  {
+    Object.keys(objOfImages)
+      .sort()
+      .reverse()
+      .map((key) => <ImageGrid images={objOfImages[key]} />)
+  }
+
   <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
 </BaseLayout>

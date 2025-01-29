@@ -1,16 +1,19 @@
 ---
+import siteConfig from '../data/site-config';
 interface Props {
   images: string[];
 }
 
 const { images } = Astro.props;
+const devMode = siteConfig.devMode;
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-2 mb-2">
   {
     images.map((image) => (
-      <div class="mx-auto">
+      <div class="mx-auto flex flex-col">
         <img class="h-auto max-w-full rounded-md" src={image} alt="Portfolio image" data-class2="w-full h-full" loading="lazy" />
+        {devMode && <div>{image.split('/').pop()}</div>}
       </div>
     ))
   }
