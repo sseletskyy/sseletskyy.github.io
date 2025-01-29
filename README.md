@@ -59,4 +59,4 @@ Check out [our documentation](https://docs.astro.build) or jump into our [Discor
 - btn contact me - site-config.ts hero:actions
 - portfolio - cite of КАРЛ ЛАГЕРФЕЛЬД
   - Що мені подобається у фотографії, то це те, що в ній спійманий момент, який пішов назавжди, який неможливо відтворити
--
+- move logo to Nav
