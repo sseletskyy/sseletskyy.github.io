@@ -60,3 +60,22 @@ Check out [our documentation](https://docs.astro.build) or jump into our [Discor
 - portfolio - cite of КАРЛ ЛАГЕРФЕЛЬД
   - Що мені подобається у фотографії, то це те, що в ній спійманий момент, який пішов назавжди, який неможливо відтворити
 - move logo to Nav
+
+## Sorting
+
+### portfolio/[slug].astro
+- read images from /public
+- split to separate subfolders
+- for each subfolder check for `sort.json` file
+  - if no file, build sortArray based on read images
+  - if file exists check which images are missing in sortArray and add them to the beginning 
+
+### ImageGridWithSorting.tsx
+- do sort manipulation
+- use api/sort endpoint to send updated array for sort.json
+  - send path, e.g. `/images/portfolio/pregnant/a`
+  - send array of files e.g. `['1.jpg', '2.jpg']`
+
+### api/sort
+- POST method to receive path and imageArray
+- create/update `sort.json` file

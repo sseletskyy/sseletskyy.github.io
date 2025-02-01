@@ -1,7 +1,9 @@
 ---
 import fg from 'fast-glob';
+import fs from 'fs';
 import siteConfig from '../../data/site-config';
 import ImageGrid from '../../components/ImageGrid.astro';
+import { ImageGridWithSorting } from '../../components/ImageGridWithSorting';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import GoBack from '../../components/GoBack.astro';
@@ -18,7 +20,50 @@ export function getStaticPaths() {
 }
 
 const { slug } = Astro.params; // Get the slug from the URL
+const devMode = siteConfig.devMode;
+
+const removePublicFromPath = (src: string): string => `/${src.split('public/')[1]}`;
+
+const readJsonFile = (src: string): string[] => {
+  // e.g. src = '/images/portfolio/newborn/a/sort.json'
+  try {
+    const content = fs.readFileSync(`public${src}`, 'utf-8'); // Synchronously read the file
+    const result = JSON.parse(content); // Parse the JSON content
+    // console.log(`@@ read json`, result);
+    return Array.isArray(result) ? result : [];
+  } catch (_e) {
+    return [];
+  }
+};
+
+/*
+takes images ready from the folder
+reads sort.json
+any images missing in sort.json are added to the top of the array
+ */
+const combineImagesWithSortJson =
+  (sortFiles: string[]) =>
+  (key: string, images: string[]): string[] => {
+    // sortFiles = ['/images/portfolio/newborn/a/sort.json,...]
+    // key = '/images/portfolio/newborn/a'
+    const sortFileToCheck = `${key}/sort.json`;
+    if (sortFiles.includes(sortFileToCheck)) {
+      const sortedImages = readJsonFile(sortFileToCheck).map((image) => `${key}/${image}`);
+      const sortedImagesSet = new Set(sortedImages);
+      const missingImages = images.filter((image) => !sortedImagesSet.has(image));
+      // filter out files in sortedImages which do not exist in images
+      const imagesSet = new Set(images);
+      const sortedImagesFiltered = sortedImages.filter((sortedImage) => imagesSet.has(sortedImage));
+      return missingImages.concat(sortedImagesFiltered);
+    } else {
+      // no sort file
+      // console.log(`@@ combineImagesWithSortJson :: return images as is`);
+      return images;
+    }
+  };
+
 const allImages: string[] = fg.sync(`public/images/portfolio/${slug}/**/*.jpg`, { onlyFiles: true });
+const allSortFiles: string[] = fg.sync(`public/images/portfolio/${slug}/**/sort.json`, { onlyFiles: true }).map(removePublicFromPath);
 
 type Accumulator = Record<string, string[]>;
 const reduceByFolders = (acc: Accumulator, image: string): Accumulator => {
@@ -28,15 +73,20 @@ const reduceByFolders = (acc: Accumulator, image: string): Accumulator => {
   if (Array.isArray(acc[key])) {
     acc[key].push(image);
   } else {
+    // console.log(`@@ key`, key);
     acc[key] = [image];
   }
   return acc;
 };
 
-const objOfImages = allImages
-  .map((src) => `/${src.split('public/')[1]}`)
-  .reverse()
-  .reduce(reduceByFolders, {});
+const objOfImages = allImages.map(removePublicFromPath).reverse().reduce(reduceByFolders, {});
+// console.log(`@@ all sort.json files`, allSortFiles);
+// console.log(`@@ images`, objOfImages);
+const combineImages = combineImagesWithSortJson(allSortFiles);
+Object.keys(objOfImages).forEach((key) => {
+  objOfImages[key] = combineImages(key, objOfImages[key]);
+});
+// console.log(`@@ images 2`, objOfImages);
 
 const title = siteConfig.dictionaries.title[slug] || 'temp';
 ---
@@ -44,11 +94,17 @@ const title = siteConfig.dictionaries.title[slug] || 'temp';
 <BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
   <PageHeader title={title} />
   <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
+
   {
-    Object.keys(objOfImages)
-      .sort()
-      .reverse()
-      .map((key) => <ImageGrid images={objOfImages[key]} />)
+    devMode
+      ? Object.keys(objOfImages)
+          .sort()
+          .reverse()
+          .map((key) => <ImageGridWithSorting images={objOfImages[key]} client:load />)
+      : Object.keys(objOfImages)
+          .sort()
+          .reverse()
+          .map((key) => <ImageGrid images={objOfImages[key]} />)
   }
 
   <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
