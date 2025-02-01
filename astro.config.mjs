@@ -5,6 +5,17 @@ import tailwind from '@astrojs/tailwind';
 import node from '@astrojs/node';
 import preact from '@astrojs/preact';
 
+const ENV = process.env.NODE_ENV || 'development';
+console.log(`ENV = ${ENV}`);
+const adapterMode =
+  ENV === 'development'
+    ? {
+        adapter: node({
+          mode: 'standalone',
+        }),
+      }
+    : {};
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://sseletskyy.github.io',
@@ -19,8 +30,5 @@ export default defineConfig({
     }),
     preact(),
   ],
-
-  adapter: node({
-    mode: 'standalone',
-  }),
+  ...adapterMode,
 });

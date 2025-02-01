@@ -1,6 +1,10 @@
-export const prerender = false;
+const ENV = process.env.NODE_ENV || 'development';
+// should be false only in dev mode
+// should be true for prod mode
+export const prerender = ENV !== 'development';
+
 import type { APIRoute } from 'astro';
-import { writeFileSync, existsSync } from 'fs';
+import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
 type Params = {
