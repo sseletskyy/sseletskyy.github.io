@@ -38,7 +38,7 @@ const pricesHrefDict: PhotosessionDictionary<string> = {
 };
 
 const siteConfig: SiteConfig = {
-  devMode: false,
+  devMode: true,
   dictionaries: {
     title: titleDict,
     href: hrefDict,

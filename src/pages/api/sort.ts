@@ -1,7 +1,8 @@
 const ENV = process.env.NODE_ENV || 'development';
 // should be false only in dev mode
 // should be true for prod mode
-export const prerender = ENV !== 'development';
+// export const prerender = ENV !== 'development';
+export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { writeFileSync } from 'fs';
@@ -13,7 +14,7 @@ type Params = {
 };
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.json();
-  console.log(`@@ POST request`, { data });
+  // console.log(`@@ POST request`, { data });
   const { path, sortedImages } = data;
   if (typeof path !== 'string') {
     return new Response(
