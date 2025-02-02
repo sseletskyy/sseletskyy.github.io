@@ -1,17 +1,17 @@
-const ENV = process.env.NODE_ENV || 'development';
 // should be false only in dev mode
 // should be true for prod mode
-// export const prerender = ENV !== 'development';
-export const prerender = false;
+// is managed by defineConfig({... output: IS_DEV ? 'server' : 'static'})
+// so for dev mode: prerender==false, for prod: ==true (not used actually)
+// export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { writeFileSync } from 'fs';
 import { resolve } from 'path';
 
-type Params = {
-  path: string; // e.g. '/images/portfolio/newborn/a'
-  sortedImages: string[]; // e.g. ['1.jpg','2.jpg']
-};
+// type Params = {
+//   path: string; // e.g. '/images/portfolio/newborn/a'
+//   sortedImages: string[]; // e.g. ['1.jpg','2.jpg']
+// };
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.json();
   // console.log(`@@ POST request`, { data });

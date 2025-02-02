@@ -6,21 +6,21 @@ import node from '@astrojs/node';
 import preact from '@astrojs/preact';
 
 const ENV = process.env.NODE_ENV || 'development';
+const IS_DEV = ENV === 'development';
 console.log(`ENV = ${ENV}`);
-const adapterMode =
-  ENV === 'development'
-    ? {
-        adapter: node({
-          mode: 'standalone',
-        }),
-      }
-    : {};
+const adapterMode = IS_DEV
+  ? {
+      adapter: node({
+        mode: 'standalone',
+      }),
+    }
+  : {};
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://sseletskyy.github.io',
   base: '/',
-  output: 'static',
+  output: IS_DEV ? 'server' : 'static',
 
   integrations: [
     mdx(),
