@@ -37,8 +37,11 @@ const pricesHrefDict: PhotosessionDictionary<string> = {
   woman: '/prices/woman',
 };
 
+const ENV = process.env.NODE_ENV || 'development';
+const IS_DEV = ENV === 'development';
+
 const siteConfig: SiteConfig = {
-  devMode: true,
+  devMode: IS_DEV,
   dictionaries: {
     title: titleDict,
     href: hrefDict,
