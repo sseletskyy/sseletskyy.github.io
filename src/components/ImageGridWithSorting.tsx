@@ -53,7 +53,7 @@ export const ImageGridWithSorting = (props: Props) => {
       {imageArray.map((image, index) => (
         <div key={image} className="mx-auto flex flex-col relative group">
           <img className="h-auto max-w-full rounded-md" src={image} alt={`Portfolio image ${index + 1}`} data-class2="w-full h-full" loading="lazy" />
-          {devMode && <div>{image.split('/').pop()}</div>}
+          {devMode && <div>{image.split('/').slice(-2).join('/')}</div>}
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <div className="grid grid-cols-2 gap-2">
               <button style={{ fontSize: 48 }} onClick={swapImages(index, index - 3)}>
