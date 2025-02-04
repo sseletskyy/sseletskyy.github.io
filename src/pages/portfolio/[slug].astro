@@ -62,7 +62,10 @@ const combineImagesWithSortJson =
     }
   };
 
-const allImages: string[] = fg.sync(`public/images/portfolio/${slug}/**/*.{jpg,JPG}`, { onlyFiles: true });
+const path = `public/images/portfolio/${slug}/**/*.{jpg,JPG}`;
+const ignore = `public/images/portfolio/${slug}/_*/**`;
+
+const allImages: string[] = fg.sync(path, { onlyFiles: true, ignore: [ignore] });
 const allSortFiles: string[] = fg.sync(`public/images/portfolio/${slug}/**/sort.json`, { onlyFiles: true }).map(removePublicFromPath);
 
 type Accumulator = Record<string, string[]>;
