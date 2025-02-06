@@ -103,7 +103,11 @@ const title = siteConfig.dictionaries.title[slug] || 'temp';
       ? Object.keys(objOfImages)
           .sort()
           .reverse()
-          .map((key) => <ImageGridWithSorting images={objOfImages[key]} client:load />)
+          .map((key) => (
+            <div class="even:bg-blue-300">
+              <ImageGridWithSorting images={objOfImages[key]} client:load />
+            </div>
+          ))
       : Object.keys(objOfImages)
           .sort()
           .reverse()

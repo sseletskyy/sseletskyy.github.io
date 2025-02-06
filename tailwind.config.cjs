@@ -1,6 +1,10 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
+  corePlugins: {
+    filter: true,
+    brightness: true,
+  },
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
   darkMode: 'class',
   theme: {
@@ -18,6 +22,9 @@ module.exports = {
       },
       borderColor: {
         main: 'rgb(var(--color-border-main) / <alpha-value>)',
+      },
+      brightness: {
+        50: '.50',
       },
       typography: (theme) => ({
         dante: {

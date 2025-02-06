@@ -15,3 +15,16 @@ export function slugify(input?: string) {
 
   return slug;
 }
+
+export function cx(...args: unknown[]) {
+  return args
+    .flat()
+    .filter((x: unknown) => typeof x === 'string')
+    .join(' ')
+    .trim();
+}
+
+export const extractFileName = (filePath: string): string => {
+  const split = filePath.split('/');
+  return split.pop() as string;
+};
