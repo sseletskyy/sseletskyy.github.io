@@ -69,17 +69,14 @@
       checkboxEl.checked = savedState === 'true'; // Convert string to boolean
     }
 
-    document.addEventListener('astro:after-swap', () => {
-      console.log(`@@ astro:after-swap`);
-      checkboxEl && checkboxEl.removeEventListener('change', onCheckboxChange);
-    });
-
     // Save state to local storage when checkbox is clicked
     checkboxEl && checkboxEl.addEventListener('change', onCheckboxChange);
-    setTimeout(onDOMContentLoaded, 1_000);
 
     checkboxClicked();
   };
+  if (window.location.hostname === 'juliaseletska.com') {
+    return;
+  }
 
   document.addEventListener('astro:page-load', onDOMContentLoaded);
 })();
