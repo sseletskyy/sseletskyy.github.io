@@ -7,6 +7,7 @@ import { ImageGridWithSorting } from '../../components/ImageGridWithSorting';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import GoBack from '../../components/GoBack.astro';
+import { extractFileName } from '../../utils/common-utils';
 
 // export const prerender = true;
 export function getStaticPaths() {
@@ -68,6 +69,8 @@ const ignore = `public/images/portfolio/${slug}/_*/**`;
 const allImages: string[] = fg.sync(path, { onlyFiles: true, ignore: [ignore] });
 const allSortFiles: string[] = fg.sync(`public/images/portfolio/${slug}/**/sort.json`, { onlyFiles: true }).map(removePublicFromPath);
 
+// key - folder, e.g. '/images/portfolio/pregnancy/b1'
+// value - array of images in that folder, e.g. ['/images/portfolio/pregnancy/b1/1234.jpg', ...]
 type Accumulator = Record<string, string[]>;
 const reduceByFolders = (acc: Accumulator, image: string): Accumulator => {
   const split = image.split('/');
@@ -91,6 +94,9 @@ Object.keys(objOfImages).forEach((key) => {
 });
 // console.log(`@@ images 2`, objOfImages);
 
+// e.g. ['a', 'b', c']
+const folders = Object.keys(objOfImages).map(extractFileName);
+
 const title = siteConfig.dictionaries.title[slug] || 'temp';
 ---
 
@@ -99,20 +105,126 @@ const title = siteConfig.dictionaries.title[slug] || 'temp';
   <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
 
   {
-    devMode
-      ? Object.keys(objOfImages)
+    devMode ? (
+      <>
+        <div id="folders" class="fixed top-10 left-0 w-auto h-auto bg-gray-100 p-4 z-10 flex flex-col opacity-0 hover:opacity-100 rounded-br-lg rounded-tr-lg">
+          <input class="w-6 h-6" id="stickyFolders" type="checkbox" onclick="" />
+          <div class="mt-6 flex-grow overflow-y-auto flex flex-col gap-8 h-[calc(100vh-8rem)]">
+            {folders.map((folder) => (
+              <a class="font-bold" href={`#${folder}`}>
+                {folder}
+              </a>
+            ))}
+          </div>
+        </div>
+        {Object.keys(objOfImages)
           .sort()
           .reverse()
-          .map((key) => (
-            <div class="even:bg-blue-300">
-              <ImageGridWithSorting images={objOfImages[key]} client:load />
-            </div>
-          ))
-      : Object.keys(objOfImages)
-          .sort()
-          .reverse()
-          .map((key) => <ImageGrid images={objOfImages[key]} />)
+          .map((key) => {
+            const folder = extractFileName(key);
+            return (
+              <section id={folder} class="even:bg-blue-300">
+                <ImageGridWithSorting images={objOfImages[key]} client:load />
+              </section>
+            );
+          })}
+      </>
+    ) : (
+      Object.keys(objOfImages)
+        .sort()
+        .reverse()
+        .map((key) => <ImageGrid images={objOfImages[key]} />)
+    )
   }
 
   <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
 </BaseLayout>
+
+<script is:inline>
+  (function () {
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('#folders a');
+    const foldersSideBarEl = document.querySelector('#folders');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const targetId = entry.target.id;
+
+            // Remove active class from all links
+            navLinks.forEach((link) => link.classList.remove('font-bold', 'underline'));
+
+            // Add active class to the corresponding link
+            const activeLink = document.querySelector(`#folders a[href="#${targetId}"]`);
+            if (activeLink) {
+              activeLink.classList.add('font-bold', 'underline');
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.05, // Adjust threshold as needed (0.5 means 50% of the section must be visible)
+      }
+    );
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+
+    // Optional: Smooth scrolling when clicking on a link
+    navLinks.forEach((link) => {
+      link.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default jump behavior
+        // @ts-ignore
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    const localStorageKey = 'stickyFolders'; // Key for local storage
+    const checkboxEl = document.getElementById(localStorageKey);
+
+    // Function to be called when the checkboxEl is clicked
+    function checkboxClicked() {
+      // Perform your desired actions here
+      if (checkboxEl && checkboxEl.checked) {
+        // Do something when checked
+        foldersSideBarEl?.classList.remove('opacity-0');
+        foldersSideBarEl?.classList.add('opacity-100');
+      } else {
+        // Do something when un-checked
+        foldersSideBarEl?.classList.remove('opacity-100');
+        foldersSideBarEl?.classList.add('opacity-0');
+      }
+    }
+
+    const onCheckboxChange = () => {
+      localStorage.setItem(localStorageKey, checkboxEl.checked); // Store boolean as string
+      checkboxClicked(); // Call the click function
+    };
+
+    const onDOMContentLoaded = () => {
+      // console.log(`@@ DOMContentLoaded`);
+      // Your code here.  Be careful with this approach.
+      const savedState = localStorage.getItem(localStorageKey);
+      if (savedState !== null && checkboxEl) {
+        checkboxEl.checked = savedState === 'true'; // Convert string to boolean
+      }
+      checkboxClicked();
+    };
+
+    // Load state from local storage on page load
+    document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
+    document.addEventListener('astro:after-swap', () => {
+      // console.log(`@@ astro:after-swap`);
+      checkboxEl && checkboxEl.removeEventListener('change', onCheckboxChange);
+    });
+
+    // Save state to local storage when checkbox is clicked
+    checkboxEl && checkboxEl.addEventListener('change', onCheckboxChange);
+    setTimeout(onDOMContentLoaded, 1_000);
+  })();
+  // Initial call to the function to handle initial state after loading from localStorage
+</script>

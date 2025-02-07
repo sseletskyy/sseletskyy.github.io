@@ -24,6 +24,7 @@ export function cx(...args: unknown[]) {
     .trim();
 }
 
+// /images/portfolio/pregnancy/b1/1234.jpg -> 1234.jpg
 export const extractFileName = (filePath: string): string => {
   const split = filePath.split('/');
   return split.pop() as string;
