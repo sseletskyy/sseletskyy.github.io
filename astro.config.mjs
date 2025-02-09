@@ -3,7 +3,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import node from '@astrojs/node';
-import preact from '@astrojs/preact';
+import react from '@astrojs/react';
 
 const ENV = process.env.NODE_ENV || 'development';
 const IS_DEV = ENV === 'development';
@@ -28,7 +28,7 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    preact(),
+    react(),
   ],
   ...adapterMode,
 });

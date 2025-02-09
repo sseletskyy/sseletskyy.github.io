@@ -76,3 +76,21 @@
 .md-border-r:not(:last-child) {
   @apply md:border-r;
 }
+
+.dropzone {
+  border: 2px dotted #ccc;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.dropzone:hover {
+  border: 2px dashed #aaa;
+}
+
+.dropzone.active {
+  border-color: #007bff;
+}
+

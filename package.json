@@ -2,6 +2,10 @@
   "name": "astro-theme",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=18.19",
+    "npm": ">=9.8.1"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -11,21 +15,30 @@
     "format": "prettier --write ./src"
   },
   "dependencies": {
+    "@astro-utils/formidable": "^2.0.3",
     "@astrojs/mdx": "^4.0.7",
     "@astrojs/node": "^9.0.2",
-    "@astrojs/preact": "^4.0.3",
+    "@astrojs/react": "^4.2.0",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.5",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@tailwindcss/postcss": "^4.0.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
     "astro": "^5.1.9",
     "fast-glob": "^3.3.3",
     "marked": "^12.0.0",
-    "preact": "^10.25.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",
+    "@types/formidable": "^3.4.5",
+    "@types/react-dropzone": "^5.1.0",
     "prettier": "^3.4.2",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.5.11"
