@@ -94,3 +94,13 @@
   border-color: #007bff;
 }
 
+nav a {
+  color: rgb(var(--color-text-main));
+  padding: 4px 8px;
+}
+nav a:hover {
+  color: rgb(var(--color-text-main));
+  background-color: rgb(var(--color-bg-main) / 0.4);
+  padding: 4px 8px;
+  border-radius: 8px;
+}
