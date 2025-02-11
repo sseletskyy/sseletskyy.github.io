@@ -1,5 +1,6 @@
 ---
 import siteConfig from '../data/site-config';
+import { SocialIcon } from './SocialIcon';
 
 const socialLinks = siteConfig.socialLinks || [];
 const navLinks = siteConfig.footerNavLinks || [];
@@ -33,6 +34,7 @@ const navLinks = siteConfig.footerNavLinks || [];
               target="_blank"
               rel="noopener noreferer"
             >
+              <SocialIcon className="mr-1" socialName={link.text} />
               {link.text}
             </a>
           ))}

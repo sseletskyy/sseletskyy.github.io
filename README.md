@@ -79,3 +79,9 @@ Check out [our documentation](https://docs.astro.build) or jump into our [Discor
 ### api/sort
 - POST method to receive path and imageArray
 - create/update `sort.json` file
+
+### api/upload
+- POST method to save images: images[], path
+
+## Useful links
+- https://flowbite.com/icons/
