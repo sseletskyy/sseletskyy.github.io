@@ -1,8 +1,5 @@
-import { useState, type MouseEvent } from 'react';
-import { DndContext, closestCenter } from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
+import React, { useState, type MouseEvent } from 'react';
 
-import siteConfig from '../data/site-config';
 import { SortableItem } from './SortableItem';
 import { cx, extractFileName } from '../utils/common-utils.ts';
 import { DeleteButton } from './DeleteButton.tsx';
@@ -21,7 +18,6 @@ interface FileWithPreview {
 
 // const { images } = Astro.props;
 // export const prerender = true;
-const devMode = siteConfig.devMode;
 export const ImageGridWithSorting = (props: Props) => {
   const { images } = props;
   const [operationCounter, setOperationCounter] = useState(0);
@@ -63,18 +59,6 @@ export const ImageGridWithSorting = (props: Props) => {
 
   const handleRemoveFile = (index: number) => {
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-  };
-
-  const handleSortEnd = (event: any) => {
-    // Type 'any' for now, or find the correct dnd-kit event type
-    const { active, over } = event;
-
-    if (active && over && active.id !== over.id) {
-      const activeIndex = files.findIndex(({ file }) => file.path === active.id);
-      const overIndex = files.findIndex(({ file }) => file.path === over.id);
-
-      setFiles((items) => arrayMove(items, activeIndex, overIndex));
-    }
   };
 
   const handleUpload = () => {
@@ -172,33 +156,31 @@ export const ImageGridWithSorting = (props: Props) => {
       <div className="dropzone" onDragOver={handleDragOver} onDrop={handleFilesDrop}>
         <p>Drag and drop JPG images here</p>
 
-        <DndContext collisionDetection={closestCenter} onDragEnd={handleSortEnd}>
-          <div className={`relative grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-2 mb-2`}>
-            {files.map((fileObj, index) => (
-              <SortableItem key={fileObj.file.name} className="mx-auto flex flex-col relative group" id={fileObj.file.name} index={index}>
-                <img src={fileObj.preview} alt={fileObj.file.name} className="preview-image" />
-                <div>{fileObj.file.name}</div>
-                <div className="absolute bottom-12 w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <DeleteButton onClick={() => handleRemoveFile(index)} />
+        <div className={`relative grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-2 mb-2`}>
+          {files.map((fileObj, index) => (
+            <SortableItem key={fileObj.file.name} className="mx-auto flex flex-col relative group" id={fileObj.file.name} index={index}>
+              <img src={fileObj.preview} alt={fileObj.file.name} className="preview-image" />
+              <div>{fileObj.file.name}</div>
+              <div className="absolute bottom-12 w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <DeleteButton onClick={() => handleRemoveFile(index)} />
+              </div>
+              {processedFiles[fileObj.file.name] && (
+                <div className="absolute top-12 w-full flex items-center justify-start p-2 opacity-100 transition-opacity bg-white">
+                  {processedFiles[fileObj.file.name].success && (
+                    <div>
+                      <IconCheckCircle /> SUCCESS
+                    </div>
+                  )}
+                  {!processedFiles[fileObj.file.name].success && (
+                    <div>
+                      <IconCrossCircle /> {processedFiles[fileObj.file.name].message}
+                    </div>
+                  )}
                 </div>
-                {processedFiles[fileObj.file.name] && (
-                  <div className="absolute top-12 w-full flex items-center justify-start p-2 opacity-100 transition-opacity bg-white">
-                    {processedFiles[fileObj.file.name].success && (
-                      <div>
-                        <IconCheckCircle /> SUCCESS
-                      </div>
-                    )}
-                    {!processedFiles[fileObj.file.name].success && (
-                      <div>
-                        <IconCrossCircle /> {processedFiles[fileObj.file.name].message}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </SortableItem>
-            ))}
-          </div>
-        </DndContext>
+              )}
+            </SortableItem>
+          ))}
+        </div>
 
         {files.length > 0 && (
           <div className="flex flex-row gap-2 items-center justify-center">
@@ -235,11 +217,11 @@ export const ImageGridWithSorting = (props: Props) => {
                   ➡️
                 </button>
                 <button
-                  className="bg-red-600 flex items-center justify-center text-center mt-10 hover:scale-125"
+                  className="bg-blend-color flex items-center justify-center text-center mt-10 hover:scale-125"
                   style={{ fontSize: 48, width: 40, height: 40 }}
                   onClick={hideImage(image)}
                 >
-                  ␡
+                  ✖️
                 </button>
               </div>
               {imageArray.length - 1 !== index && (
