@@ -74,7 +74,7 @@ const pregnancyPremium: PriceDescription = {
 const newbornBasic: PriceDescription = {
   title: BASIC_TITLE,
   // oldPrice: '$230',
-  price: '$150',
+  price: '$200',
   image: {
     src: '/images/prices/prices-newborn-basic.jpg',
     alt: BASIC_ALT,

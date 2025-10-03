@@ -7,11 +7,11 @@ export const ImageCarousel: React.FC = () => {
     { src: '/images/home/first-picture.jpg', alt: 'Image 0' },
     { src: '/images/home-slider/01.jpg', alt: 'Image 1' },
     { src: '/images/home-slider/02.jpg', alt: 'Image 2' },
-    { src: '/images/home-slider/03.jpg', alt: 'Image 3' },
+    { src: '/images/home-slider/06.jpg', alt: 'Image 6' },
     { src: '/images/home-slider/04.jpg', alt: 'Image 4' },
     { src: '/images/home-slider/05.jpg', alt: 'Image 5' },
-    { src: '/images/home-slider/06.jpg', alt: 'Image 6' },
     { src: '/images/home-slider/07.jpg', alt: 'Image 7' },
+    { src: '/images/home-slider/03.jpg', alt: 'Image 3' },
     { src: '/images/home-slider/08.jpg', alt: 'Image 8' },
     // ... more images
   ];
@@ -26,6 +26,8 @@ export const ImageCarousel: React.FC = () => {
       autoPlay={true}
       interval={4000}
       showThumbs={false}
+      swipeable={true}
+      transitionTime={300}
     >
       {images.map((image, index) => (
         <div className="" key={image.src}>
