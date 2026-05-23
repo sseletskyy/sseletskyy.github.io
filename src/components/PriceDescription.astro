@@ -9,37 +9,33 @@ const isSingle = descriptionList.length === 1;
 ---
 
 <>
-  {isSingle ? (
-    <section class="flex flex-col md:flex-row gap-10 md:gap-16 items-start max-w-3xl mx-auto py-4">
-      <img
-        class="w-full md:w-80 rounded-lg shrink-0"
-        src={descriptionList[0].image.src}
-        loading="lazy"
-        decoding="async"
-        alt={descriptionList[0].image.alt || ''}
-      />
-      <div class="flex flex-col gap-6">
-        {descriptionList[0].title && (
-          <div class="text-xl font-semibold">{descriptionList[0].title}</div>
-        )}
-        <div class="text-3xl font-serif font-medium">
-          {descriptionList[0].oldPrice && (
-            <span class="line-through text-xl opacity-50 pr-2">{descriptionList[0].oldPrice}</span>
-          )}
-          {descriptionList[0].price}
+  {
+    isSingle ? (
+      <section class="flex flex-col md:flex-row gap-10 md:gap-16 items-start max-w-3xl mx-auto py-4">
+        <img
+          class="w-full md:w-80 rounded-lg shrink-0"
+          src={descriptionList[0].image.src}
+          loading="lazy"
+          decoding="async"
+          alt={descriptionList[0].image.alt || ''}
+        />
+        <div class="flex flex-col gap-6">
+          {descriptionList[0].title && <div class="text-xl font-semibold">{descriptionList[0].title}</div>}
+          <div class="text-3xl font-serif font-medium">
+            {descriptionList[0].oldPrice && <span class="line-through text-xl opacity-50 pr-2">{descriptionList[0].oldPrice}</span>}
+            {descriptionList[0].price}
+          </div>
+          <div class="font-medium">Пакет включає в себе:</div>
+          <ul class="list-disc pl-5 flex flex-col gap-1">
+            {descriptionList[0].list.map((item) => (
+              <li set:html={item} />
+            ))}
+          </ul>
         </div>
-        <div class="font-medium">Пакет включає в себе:</div>
-        <ul class="list-disc pl-5 flex flex-col gap-1">
-          {descriptionList[0].list.map((item) => (
-            <li set:html={item} />
-          ))}
-        </ul>
-      </div>
-    </section>
-  ) : (
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-2">
-      {
-        descriptionList.map((d) => (
+      </section>
+    ) : (
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        {descriptionList.map((d) => (
           <div class="flex flex-col gap-8 md-border-r border-gray-500 pr-4">
             <div class="mx-auto">{d.title}</div>
             <div class="mx-auto">
@@ -54,9 +50,9 @@ const isSingle = descriptionList.length === 1;
               ))}
             </ul>
           </div>
-        ))
-      }
-    </section>
-  )}
-  <div class="my-16">* Ціни вказані для ознайомлення. Оплата послуг відбувається лише у національній валюті за курсом на день зйомки.</div>
+        ))}
+      </section>
+    )
+  }
+  <!--<div class="my-16">* Ціни вказані для ознайомлення. Оплата послуг відбувається лише у національній валюті за курсом на день зйомки.</div>-->
 </>
