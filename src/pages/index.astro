@@ -5,6 +5,6 @@ import Hero from '../components/Hero.astro';
 import siteConfig from '../data/site-config';
 ---
 
-<HomeLayout description={siteConfig.description} showHeader={false}>
+<HomeLayout description={siteConfig.pageDescriptions?.home ?? siteConfig.description} showHeader={false}>
   <Hero />
 </HomeLayout>

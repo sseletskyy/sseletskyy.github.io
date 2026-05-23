@@ -1,6 +1,8 @@
 ---
 import siteConfig from '../data/site-config';
 import '../styles/global.css';
+import StructuredData from './StructuredData.astro';
+import GoogleAnalytics from './GoogleAnalytics.astro';
 
 export type Props = {
   title?: string;
@@ -72,3 +74,6 @@ function formatCanonicalURL(url: string | URL) {
 <meta property="twitter:description" content={description} />
 {resolvedImage?.src && <meta property="twitter:image" content={resolvedImage.src} />}
 {resolvedImage?.alt && <meta name="twitter:image:alt" content={resolvedImage?.alt} />}
+
+<StructuredData />
+{import.meta.env.PROD && <GoogleAnalytics />}

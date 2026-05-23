@@ -10,9 +10,10 @@ const allImages: string[] = fg.sync(`public/images/testimonials/*.{jpg,png}`, { 
 const images = allImages.map((src) => `/${src.split('public/')[1]}`).reverse();
 
 const { title } = siteConfig.testimonials;
+const description = siteConfig.pageDescriptions?.testimonials ?? siteConfig.description;
 ---
 
-<BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
+<BaseLayout description={description} image={siteConfig.image} showHeader={false}>
   <PageHeader title={title} nbsp={false} />
   <ImageGrid images={images} />
 </BaseLayout>

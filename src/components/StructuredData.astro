@@ -1,0 +1,62 @@
+---
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'Photographer'],
+  name: 'Юлія Селецька',
+  description:
+    'Фотозйомка вагітності, новонародженого, сімейна фотосесія та жіночий портрет в Одесі',
+  url: 'https://juliaseletska.com',
+  telephone: '+380679374999',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Одеса',
+    addressCountry: 'UA',
+  },
+  sameAs: [
+    'https://www.instagram.com/seletska_photography/',
+    'https://t.me/julia_seletska',
+    'https://www.tiktok.com/@seletska_photography',
+  ],
+  priceRange: '7500–10000 грн',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Фотосесії',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Фотосесія вагітності',
+          url: 'https://juliaseletska.com/prices/pregnancy',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Фотосесія новонародженого',
+          url: 'https://juliaseletska.com/prices/newborn',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Сімейна фотосесія',
+          url: 'https://juliaseletska.com/prices/family',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Жіночий портрет',
+          url: 'https://juliaseletska.com/prices/woman',
+        },
+      },
+    ],
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

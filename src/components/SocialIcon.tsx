@@ -1,5 +1,8 @@
 import React from 'react';
 import { IconInstagram } from './IconInstagram';
+import { IconTelegram } from './IconTelegram';
+import { IconTikTok } from './IconTikTok';
+import { IconViber } from './IconViber';
 
 interface Props extends React.SVGAttributes<SVGSVGElement> {
   className?: string;
@@ -8,6 +11,9 @@ interface Props extends React.SVGAttributes<SVGSVGElement> {
 
 const socialIcons: Record<string, React.FC> = {
   Instagram: IconInstagram,
+  Telegram: IconTelegram,
+  TikTok: IconTikTok,
+  Viber: IconViber,
 };
 
 export const SocialIcon: React.FC<Props> = ({ className, socialName, ...props }) => {

@@ -98,9 +98,10 @@ Object.keys(objOfImages).forEach((key) => {
 const folders = Object.keys(objOfImages).map(extractFileName);
 
 const title = siteConfig.dictionaries.title[slug] || 'temp';
+const description = siteConfig.pageDescriptions?.[slug] ?? siteConfig.description;
 ---
 
-<BaseLayout description={siteConfig.description} image={siteConfig.image} showHeader={false}>
+<BaseLayout description={description} image={siteConfig.image} showHeader={false}>
   <PageHeader title={title} />
   <GoBack text={siteConfig.dictionaries.title.portfolio} href={siteConfig.dictionaries.href.portfolio} />
 

@@ -79,6 +79,7 @@ export type TestimonialsPage = {
 export type SiteConfig = {
   devMode: boolean;
   description: string;
+  pageDescriptions?: Dictionary;
   dictionaries: {
     title: Dictionary;
     href: Dictionary;
