@@ -1,10 +1,11 @@
 ---
 const GA_ID = 'G-FBHMPJ80K3';
 const AW_ID = 'AW-18184787596';
+const AW_CONVERSION = 'AW-18184787596/HozYCLbaprIcEIytl99D';
 ---
 
 <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
-<script define:vars={{ GA_ID, AW_ID }}>
+<script define:vars={{ GA_ID, AW_ID, AW_CONVERSION }}>
   window.dataLayer = window.dataLayer || [];
   function gtag() {
     dataLayer.push(arguments);
@@ -12,4 +13,19 @@ const AW_ID = 'AW-18184787596';
   gtag('js', new Date());
   gtag('config', GA_ID);
   gtag('config', AW_ID);
+
+  window.gtag_report_conversion = function (url) {
+    var callback = function () {
+      if (typeof url !== 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'conversion', {
+      send_to: AW_CONVERSION,
+      value: 1.0,
+      currency: 'UAH',
+      event_callback: callback,
+    });
+    return false;
+  };
 </script>

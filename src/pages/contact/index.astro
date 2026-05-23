@@ -17,7 +17,7 @@ const viber = socialLinks.find(({ text }) => text === 'Viber');
 
   <section class="w-full max-w-3xl mx-auto pb-10 sm:pb-14 mt-8">
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-      <a href="tel:+380679374999" class="flex flex-col items-center gap-3 p-6 rounded-xl border border-current hover:opacity-70 transition-opacity text-center">
+      <a href="tel:+380679374999" onclick="return gtag_report_conversion(this.href)" class="flex flex-col items-center gap-3 p-6 rounded-xl border border-current hover:opacity-70 transition-opacity text-center">
         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
           <path
             d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"
@@ -31,7 +31,7 @@ const viber = socialLinks.find(({ text }) => text === 'Viber');
 
       {
         viber && (
-          <a href={viber.href} class="flex flex-col items-center gap-3 p-6 rounded-xl border border-current hover:opacity-70 transition-opacity text-center">
+          <a href={viber.href} onclick="return gtag_report_conversion(this.href)" class="flex flex-col items-center gap-3 p-6 rounded-xl border border-current hover:opacity-70 transition-opacity text-center">
             <SocialIcon className="w-8 h-8" socialName="Viber" client:load />
             <div>
               <div class="font-bold mb-1">Viber</div>
@@ -45,6 +45,7 @@ const viber = socialLinks.find(({ text }) => text === 'Viber');
         telegram && (
           <a
             href={telegram.href}
+            onclick="return gtag_report_conversion(this.href)"
             target="_blank"
             rel="noopener noreferrer"
             class="flex flex-col items-center gap-3 p-6 rounded-xl border border-current hover:opacity-70 transition-opacity text-center"
