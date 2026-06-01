@@ -8,7 +8,7 @@ export const qaList: QuestionAndAnswer[] = [
   {
     question: 'Як забронювати дату зйомки?',
     answer:
-      'Щоб забронювати дату, напишіть мені в розділі «Послуги», вибравши потрібний пакет або зателефонуйте мені за номером телефона <a href="tel:+380679374999"> +38 067 937 4 999</a>. Після підтвердження дати та внесення передоплати дату зйомки буде заброньовано за вами.',
+      'Щоб забронювати дату, напишіть мені в <a href="https://ig.me/m/seletska_photography" target="_blank" rel="noopener noreferrer" class="font-bold underline underline-offset-2 hover:opacity-70">Instagram Direct</a>. Після підтвердження дати та внесення передоплати дату зйомки буде заброньовано за вами.',
   },
   {
     question: 'Як відбувається оплата послуг?',

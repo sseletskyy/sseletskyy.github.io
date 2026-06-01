@@ -14,7 +14,10 @@ const AW_CONVERSION = 'AW-18184787596/HozYCLbaprIcEIytl99D';
   gtag('config', GA_ID);
   gtag('config', AW_ID);
 
-  window.gtag_report_conversion = function (url) {
+  window.gtag_report_conversion = function (url, channel) {
+    if (channel) {
+      gtag('event', 'contact_click', { method: channel });
+    }
     var callback = function () {
       if (typeof url !== 'undefined') {
         window.location = url;
