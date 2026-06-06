@@ -24,7 +24,7 @@ export const priceDescriptions: PriceDescriptions = {
   pregnancy: [
     {
       title: '',
-      price: '7 500 грн',
+      price: '6 000 грн',
       image: { src: '/images/prices/prices-pregnancy-optimal.jpg', alt: 'Фотосесія вагітності' },
       list: standardList,
     },
@@ -40,7 +40,7 @@ export const priceDescriptions: PriceDescriptions = {
   family: [
     {
       title: '',
-      price: '7 500 грн',
+      price: '6 000 грн',
       image: { src: '/images/prices/prices-family-optimal.jpg', alt: 'Сімейна фотосесія' },
       list: standardList,
     },
@@ -48,7 +48,7 @@ export const priceDescriptions: PriceDescriptions = {
   woman: [
     {
       title: '',
-      price: '7 500 грн',
+      price: '6 000 грн',
       image: { src: '/images/prices/prices-woman-optimal.jpg', alt: 'Жіночий портрет' },
       list: standardList,
     },
