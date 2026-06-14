@@ -53,6 +53,16 @@ const siteConfig: SiteConfig = {
     list: [
       {
         link: {
+          text: titleDict.woman,
+          href: portfolioHrefDict.woman,
+        },
+        image: {
+          src: '/images/portfolio/woman-portrait.jpg',
+          alt: titleDict.woman,
+        },
+      },
+      {
+        link: {
           text: titleDict.pregnancy,
           href: portfolioHrefDict.pregnancy,
         },
@@ -81,21 +91,21 @@ const siteConfig: SiteConfig = {
           alt: titleDict.family,
         },
       },
+    ],
+  },
+  prices: {
+    title: titleDict.prices,
+    list: [
       {
         link: {
           text: titleDict.woman,
-          href: portfolioHrefDict.woman,
+          href: pricesHrefDict.woman,
         },
         image: {
           src: '/images/portfolio/woman-portrait.jpg',
           alt: titleDict.woman,
         },
       },
-    ],
-  },
-  prices: {
-    title: titleDict.prices,
-    list: [
       {
         link: {
           text: titleDict.pregnancy,
@@ -124,16 +134,6 @@ const siteConfig: SiteConfig = {
         image: {
           src: '/images/portfolio/family.jpg',
           alt: titleDict.family,
-        },
-      },
-      {
-        link: {
-          text: titleDict.woman,
-          href: pricesHrefDict.woman,
-        },
-        image: {
-          src: '/images/portfolio/woman-portrait.jpg',
-          alt: titleDict.woman,
         },
       },
     ],
