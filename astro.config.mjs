@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import node from '@astrojs/node';
 import react from '@astrojs/react';
 
@@ -22,13 +22,11 @@ export default defineConfig({
   base: '/',
   output: IS_DEV ? 'server' : 'static',
 
-  integrations: [
-    mdx(),
-    sitemap(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    react(),
-  ],
+  integrations: [mdx(), sitemap(), react()],
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
   ...adapterMode,
 });

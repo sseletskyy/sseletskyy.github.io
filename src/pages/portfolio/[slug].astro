@@ -108,9 +108,9 @@ const description = siteConfig.pageDescriptions?.[slug] ?? siteConfig.descriptio
   {
     devMode ? (
       <>
-        <div id="folders" class="fixed top-10 left-0 w-auto h-auto bg-gray-100 p-4 z-10 flex flex-col opacity-0 hover:opacity-100 rounded-br-lg rounded-tr-lg">
-          <input class="w-6 h-6" id="stickyFolders" type="checkbox" onclick="" />
-          <div class="mt-6 flex-grow overflow-y-auto flex flex-col gap-8 h-[calc(100vh-8rem)]">
+        <div id="folders" class="fixed left-0 top-10 z-10 flex h-auto w-auto flex-col rounded-br-lg rounded-tr-lg bg-gray-100 p-4 opacity-0 hover:opacity-100">
+          <input class="h-6 w-6" id="stickyFolders" type="checkbox" onclick="" />
+          <div class="mt-6 flex h-[calc(100vh-8rem)] flex-grow flex-col gap-8 overflow-y-auto">
             {folders.map((folder) => (
               <a class="font-bold" href={`#${folder}`}>
                 {folder}

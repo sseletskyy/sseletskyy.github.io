@@ -156,16 +156,16 @@ export const ImageGridWithSorting = (props: Props) => {
       <div className="dropzone" onDragOver={handleDragOver} onDrop={handleFilesDrop}>
         <p>Drag and drop JPG images here</p>
 
-        <div className={`relative grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-2 mb-2`}>
+        <div className={`relative mb-2 grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-3`}>
           {files.map((fileObj, index) => (
-            <SortableItem key={fileObj.file.name} className="mx-auto flex flex-col relative group" id={fileObj.file.name} index={index}>
+            <SortableItem key={fileObj.file.name} className="group relative mx-auto flex flex-col" id={fileObj.file.name} index={index}>
               <img src={fileObj.preview} alt={fileObj.file.name} className="preview-image" />
               <div>{fileObj.file.name}</div>
-              <div className="absolute bottom-12 w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute bottom-12 flex w-full items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
                 <DeleteButton onClick={() => handleRemoveFile(index)} />
               </div>
               {processedFiles[fileObj.file.name] && (
-                <div className="absolute top-12 w-full flex items-center justify-start p-2 opacity-100 transition-opacity bg-white">
+                <div className="absolute top-12 flex w-full items-center justify-start bg-white p-2 opacity-100 transition-opacity">
                   {processedFiles[fileObj.file.name].success && (
                     <div>
                       <IconCheckCircle /> SUCCESS
@@ -183,17 +183,17 @@ export const ImageGridWithSorting = (props: Props) => {
         </div>
 
         {files.length > 0 && (
-          <div className="flex flex-row gap-2 items-center justify-center">
+          <div className="flex flex-row items-center justify-center gap-2">
             <div>Path: {path}</div>
-            <button className="text-xl hover:scale-110 border rounded-md p-2 bg-amber-200" onClick={handleUpload}>
+            <button className="rounded-md border bg-amber-200 p-2 text-xl hover:scale-110" onClick={handleUpload}>
               Upload Selected Images
             </button>
           </div>
         )}
       </div>
-      <div className={`relative grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-2 mb-2`}>
+      <div className={`relative mb-2 grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-3`}>
         {imageArray.map((image, index) => (
-          <div key={image} className="mx-auto flex flex-col relative group">
+          <div key={image} className="group relative mx-auto flex flex-col">
             <img
               className={cx('h-auto max-w-full rounded-md', hideSet.has(image) && 'brightness-50')}
               src={image}
@@ -202,7 +202,7 @@ export const ImageGridWithSorting = (props: Props) => {
               loading="lazy"
             />
             <div>{image.split('/').slice(-2).join('/')}</div>
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
               <div className="grid grid-cols-2 gap-5">
                 <button className="hover:scale-125" style={{ fontSize: 48 }} onClick={swapImages(index, index - 3)}>
                   ⬆️
@@ -217,7 +217,7 @@ export const ImageGridWithSorting = (props: Props) => {
                   ➡️
                 </button>
                 <button
-                  className="bg-blend-color flex items-center justify-center text-center mt-10 hover:scale-125"
+                  className="mt-10 flex items-center justify-center text-center bg-blend-color hover:scale-125"
                   style={{ fontSize: 48, width: 40, height: 40 }}
                   onClick={hideImage(image)}
                 >
@@ -225,7 +225,7 @@ export const ImageGridWithSorting = (props: Props) => {
                 </button>
               </div>
               {imageArray.length - 1 !== index && (
-                <button onClick={exportOrder} className="mt-4 bg-amber-100 p-2 rounded bottom-10 right-1 absolute hover:scale-110">
+                <button onClick={exportOrder} className="absolute bottom-10 right-1 mt-4 rounded bg-amber-100 p-2 hover:scale-110">
                   Save Order
                 </button>
               )}
@@ -234,10 +234,10 @@ export const ImageGridWithSorting = (props: Props) => {
         ))}
         {operationCounter > 0 && (
           <>
-            <div onClick={exportOrder} className="absolute top-0 right-0 z-10 w-fit ml-auto bg-blue-500 text-white p-4 rounded-lg shadow-lg hover:scale-110">
+            <div onClick={exportOrder} className="absolute right-0 top-0 z-10 ml-auto w-fit rounded-lg bg-blue-500 p-4 text-white shadow-lg hover:scale-110">
               Save Order
             </div>
-            <div onClick={exportOrder} className="absolute bottom-0 right-0 z-10 w-fit ml-auto bg-blue-500 text-white p-4 rounded-lg shadow-lg hover:scale-110">
+            <div onClick={exportOrder} className="absolute bottom-0 right-0 z-10 ml-auto w-fit rounded-lg bg-blue-500 p-4 text-white shadow-lg hover:scale-110">
               Save Order
             </div>
           </>
