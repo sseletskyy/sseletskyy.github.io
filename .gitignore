@@ -21,3 +21,7 @@ pnpm-debug.log*
 .DS_Store
 .idea/
 .yarn/
+
+# SDD per-developer local settings
+.claude/*.local.md
+.worktrees/

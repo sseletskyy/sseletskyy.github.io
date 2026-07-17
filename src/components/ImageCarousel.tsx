@@ -6,15 +6,15 @@ type SlideImage = { src: string; mobileSrc: string; alt: string };
 
 export const ImageCarousel: React.FC = () => {
   const images: SlideImage[] = [
-    { src: '/images/home/first-picture.jpg',  mobileSrc: '/images/home-slider-mobile/00.jpg', alt: 'Image 0' },
-    { src: '/images/home-slider/01.jpg',       mobileSrc: '/images/home-slider-mobile/01.jpg', alt: 'Image 1' },
-    { src: '/images/home-slider/02.jpg',       mobileSrc: '/images/home-slider-mobile/02.jpg', alt: 'Image 2' },
-    { src: '/images/home-slider/06.jpg',       mobileSrc: '/images/home-slider-mobile/03.jpg', alt: 'Image 3' },
-    { src: '/images/home-slider/04.jpg',       mobileSrc: '/images/home-slider-mobile/04.jpg', alt: 'Image 4' },
-    { src: '/images/home-slider/05.jpg',       mobileSrc: '/images/home-slider-mobile/05.jpg', alt: 'Image 5' },
-    { src: '/images/home-slider/07.jpg',       mobileSrc: '/images/home-slider-mobile/06.jpg', alt: 'Image 6' },
-    { src: '/images/home-slider/03.jpg',       mobileSrc: '/images/home-slider-mobile/07.jpg', alt: 'Image 7' },
-    { src: '/images/home-slider/08.jpg',       mobileSrc: '/images/home-slider-mobile/08.jpg', alt: 'Image 8' },
+    { src: '/images/home/first-picture.jpg', mobileSrc: '/images/home-slider-mobile/00.jpg', alt: 'Image 0' },
+    { src: '/images/home-slider/01.jpg', mobileSrc: '/images/home-slider-mobile/01.jpg', alt: 'Image 1' },
+    { src: '/images/home-slider/02.jpg', mobileSrc: '/images/home-slider-mobile/02.jpg', alt: 'Image 2' },
+    { src: '/images/home-slider/06.jpg', mobileSrc: '/images/home-slider-mobile/03.jpg', alt: 'Image 3' },
+    { src: '/images/home-slider/04.jpg', mobileSrc: '/images/home-slider-mobile/04.jpg', alt: 'Image 4' },
+    { src: '/images/home-slider/05.jpg', mobileSrc: '/images/home-slider-mobile/05.jpg', alt: 'Image 5' },
+    { src: '/images/home-slider/07.jpg', mobileSrc: '/images/home-slider-mobile/06.jpg', alt: 'Image 6' },
+    { src: '/images/home-slider/03.jpg', mobileSrc: '/images/home-slider-mobile/07.jpg', alt: 'Image 7' },
+    { src: '/images/home-slider/08.jpg', mobileSrc: '/images/home-slider-mobile/08.jpg', alt: 'Image 8' },
   ];
 
   return (
@@ -37,7 +37,7 @@ export const ImageCarousel: React.FC = () => {
             <img
               src={image.src}
               alt={image.alt}
-              className="object-cover w-full h-dvh"
+              className="h-dvh w-full object-cover"
               loading={index === 0 ? 'eager' : 'lazy'}
               fetchPriority={index === 0 ? 'high' : 'auto'}
             />

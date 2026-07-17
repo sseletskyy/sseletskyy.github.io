@@ -12,7 +12,7 @@ const { showHeader = true, ...head } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="uk" class="antialiased break-words">
+<html lang="uk" class="break-words antialiased">
   <head>
     <BaseHead {...head} />
     <script>
@@ -22,14 +22,14 @@ const { showHeader = true, ...head } = Astro.props;
     </script>
     <ClientRouter />
   </head>
-  <body class="relative w-full h-screen bg-main text-main">
-    <div class="absolute top-0 px-8 left-0 right-0 z-10 bg-gray-300 bg-opacity-50 text-black">
+  <body class="relative h-screen w-full bg-main text-main">
+    <div class="absolute left-0 right-0 top-0 z-10 bg-gray-300 bg-opacity-50 px-8 text-black">
       <Nav />
     </div>
     <ImageCarousel client:load />
-    <div class="flex flex-col min-h-screen mt-8 px-4 md:px-8">
+    <div class="mt-8 flex min-h-screen flex-col px-4 md:px-8">
       {showHeader && <Header />}
-      <main class="w-full max-w-3xl mx-auto">
+      <main class="mx-auto w-full max-w-3xl">
         <slot />
       </main>
       <Footer />

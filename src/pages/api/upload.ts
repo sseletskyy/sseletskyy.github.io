@@ -4,10 +4,6 @@ import path from 'path';
 
 import type { ProcessedFile } from '../../types.ts';
 
-export const config = {
-  bodyParser: false,
-};
-
 const FILE_SIZE_LIMIT = 1_500_000;
 export async function POST({ request }: { request: Request }) {
   const formData = await parseAstroForm(request);

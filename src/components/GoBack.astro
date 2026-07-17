@@ -8,8 +8,8 @@ export type Props = {
 const { text, href } = Astro.props as Props;
 ---
 
-<div class="flex my-3 items-center">
-  <NavLink class="text-xl font-sans text-gray-500 hover:underline hover:underline-offset-2 hover:decoration-1 md:text-base" href={href}>
+<div class="my-3 flex items-center">
+  <NavLink class="font-sans text-xl text-gray-500 hover:underline hover:decoration-1 hover:underline-offset-2 md:text-base" href={href}>
     <svg
       class="h-8 w-8 text-gray-500"
       width="16"
@@ -41,7 +41,7 @@ const { text, href } = Astro.props as Props;
     <path stroke="none" d="M0 0h24v24H0z"></path> <polyline points="7 7 12 12 7 17"></polyline> <polyline points="13 7 18 12 13 17"></polyline></svg
   >
   <!--<div class="text-gray-500 text-xl font-sans md:text-base">::</div>-->
-  <NavLink class="text-xl font-sans text-gray-500 hover:underline hover:underline-offset-2 hover:decoration-1 md:text-base" href={href}>
+  <NavLink class="font-sans text-xl text-gray-500 hover:underline hover:decoration-1 hover:underline-offset-2 md:text-base" href={href}>
     {text}
   </NavLink>
 </div>

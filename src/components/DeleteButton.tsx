@@ -7,7 +7,7 @@ export const DeleteButton: React.FC<Props> = ({ onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="hover:scale-125 rounded-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 transition duration-300 ease-in-out" // Basic button styles
+      className="rounded-full bg-red-500 px-2 py-2 font-bold text-white transition duration-300 ease-in-out hover:scale-125 hover:bg-red-700" // Basic button styles
       aria-label="Delete" // Accessibility
     >
       <svg // SVG cross icon

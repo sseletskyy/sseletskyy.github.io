@@ -11,9 +11,9 @@ const isSingle = descriptionList.length === 1;
 <>
   {
     isSingle ? (
-      <section class="flex flex-col md:flex-row gap-10 md:gap-16 items-start max-w-3xl mx-auto py-4">
+      <section class="mx-auto flex max-w-3xl flex-col items-start gap-10 py-4 md:flex-row md:gap-16">
         <img
-          class="w-full md:w-80 rounded-lg shrink-0"
+          class="w-full shrink-0 rounded-lg md:w-80"
           src={descriptionList[0].image.src}
           loading="lazy"
           decoding="async"
@@ -21,12 +21,12 @@ const isSingle = descriptionList.length === 1;
         />
         <div class="flex flex-col gap-6">
           {descriptionList[0].title && <div class="text-xl font-semibold">{descriptionList[0].title}</div>}
-          <div class="text-3xl font-serif font-medium">
-            {descriptionList[0].oldPrice && <span class="line-through text-xl opacity-50 pr-2">{descriptionList[0].oldPrice}</span>}
+          <div class="font-serif text-3xl font-medium">
+            {descriptionList[0].oldPrice && <span class="pr-2 text-xl line-through opacity-50">{descriptionList[0].oldPrice}</span>}
             {descriptionList[0].price}
           </div>
           <div class="font-medium">Пакет включає в себе:</div>
-          <ul class="list-disc pl-5 flex flex-col gap-1">
+          <ul class="flex list-disc flex-col gap-1 pl-5">
             {descriptionList[0].list.map((item) => (
               <li set:html={item} />
             ))}
@@ -34,17 +34,17 @@ const isSingle = descriptionList.length === 1;
         </div>
       </section>
     ) : (
-      <section class="grid grid-cols-1 md:grid-cols-3 gap-2">
+      <section class="grid grid-cols-1 gap-2 md:grid-cols-3">
         {descriptionList.map((d) => (
-          <div class="flex flex-col gap-8 md-border-r border-gray-500 pr-4">
+          <div class="md-border-r flex flex-col gap-8 border-gray-500 pr-4">
             <div class="mx-auto">{d.title}</div>
             <div class="mx-auto">
-              {d.oldPrice && <span class="line-through pr-2">{d.oldPrice}</span>}
+              {d.oldPrice && <span class="pr-2 line-through">{d.oldPrice}</span>}
               {d.price}
             </div>
             <img class="mx-auto w-1/2 md:w-full" src={d.image.src} loading="lazy" decoding="async" alt={d.image.alt || ''} />
             <div>Пакет включає в себе:</div>
-            <ul class="list-disc mx-auto md:px-4">
+            <ul class="mx-auto list-disc md:px-4">
               {d.list.map((item) => (
                 <li set:html={item} />
               ))}
